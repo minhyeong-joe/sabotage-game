@@ -1,0 +1,9 @@
+@import "variables";
+html, body {
+    font-family: $nanum-pen-script;
+}
+
+.main-container {
+    background-color: $danger;
+    min-height: 100vh;
+}

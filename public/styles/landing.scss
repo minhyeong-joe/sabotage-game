@@ -1,0 +1,45 @@
+@import 'variables';
+
+.landing-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &>* {
+        transform: translateY(-100%);
+    }
+    h1 {
+        margin-bottom: 2rem;
+        color: $primary;
+        font-family: $permanent-marker;
+        font-size: 5rem;
+        text-align: center;
+    }
+    input {
+        outline: none;
+        padding: 0.7rem 1.2rem;
+        border-radius: 2.5rem;
+        // font-family: $nanum-pen-script;
+        font-size: 1.5rem;
+        border: 2px solid rgba(0,0,0,0.12);
+        transition: border-color 0.25s ease-in-out;
+        &:focus {
+            border-color: rgba(0,0,0,0.75);
+        }
+    }
+    button {
+        margin-left: 0.3rem;
+        outline: none;
+        font-size: 1.5rem;
+        // font-family: $nanum-pen-script;
+        padding: 0.7rem 1.5rem;
+        border-radius: 2rem;
+        border: none;
+        background-color: $secondary;
+        color: $danger;
+        transition: color 0.1s ease-in, padding 0.1s ease-in;
+        &:hover, &:focus {
+            color: $primary;
+        }
+    }
+}

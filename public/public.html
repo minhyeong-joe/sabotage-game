@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabotage Game</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Permanent+Marker&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/chatroom.css">
+</head>
+<body>
+    <div class="container-fluid main-container">
+        <div class="row justify-content-center pt-5">
+            <div class="col-md-12 col-lg-8">
+                <!-- chat container -->
+                <div class="chat-container card">
+                    <div class="card-header">
+                        Public Area
+                    </div>
+                    <div class="card-body">
+                        <div class="row no-gutters">
+                            <!-- left panel -->
+                            <div class="col-12 col-md-3 order-1 order-md-0">
+                                <!-- rooms and users container -->
+                                <div class="left-panel custom-scroll">
+                                    <div class="rooms">
+                                        <h3><i class="fas fa-home"></i> Rooms</h3>
+                                        <ul>
+                                            <li>room 1</li>
+                                            <li>room 2</li>
+                                        </ul>
+                                    </div>
+                                        
+                                    <div class="users">
+                                        <h3><i class="fas fa-users"></i> Users</h3>
+                                        <ul>
+                                            <li>Billy</li>
+                                            <li>User 1</li>
+                                            <li>User 2</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- end of rooms and users container -->
+                                <!-- create new room button area -->
+                                <div class="card-footer">
+                                    <form action="#" id="create-room-form">
+                                        <button type="submit" id="create-room-btn">Create Room</button>
+                                    </form>
+                                </div>
+                                <!-- end of create new room button area -->
+                            </div>
+                            <!-- end of left panel -->
+                            <!-- right panel of app -->
+                            <div class="col-12 col-md-9 order-0 order-md-1">
+                                <!-- chat area -->
+                                <div class="chat-area custom-scroll">
+                                    <div class="message system-message">
+                                        <div class="content">
+                                            Welcome to the Public Chatroom
+                                        </div>
+                                        <div class="timestamp">
+                                            2020-08-01 12:20:25 AM
+                                        </div>
+                                    </div>
+                                    <div class="my-message message">
+                                        <div class="username">
+                                            You
+                                        </div>
+                                        <div class="content">
+                                            Hello, My name is Billy Joe
+                                        </div>
+                                        <div class="timestamp">
+                                            2020-08-01 12:20:47 AM
+                                        </div>
+                                    </div>
+                                    <div class="other-message message">
+                                        <div class="username">
+                                            User 1
+                                        </div>
+                                        <div class="content">
+                                            Hi, Billy. I'm User 1
+                                        </div>
+                                        <div class="timestamp">
+                                            2020-08-01 12:21:23 AM
+                                        </div>
+                                    </div>
+                                    <div class="message system-message">
+                                        <div class="content">
+                                            User 2 has Joined
+                                        </div>
+                                        <div class="timestamp">
+                                            2020-08-01 1:12:43 AM
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end of chat area -->
+                                <!-- message input area -->
+                                <div class="card-footer">
+                                    <form action="#" id="message-form">
+                                        <input type="text" id="message-input">
+                                        <button type="submit" id="message-send-btn">SEND</button>
+                                    </form>
+                                </div>
+                                <!-- end of message input area -->
+                            </div>
+                            <!-- end of right panel -->
+                        </div>
+                    </div>
+                    
+                </div>
+                <!-- end of chat container-->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>

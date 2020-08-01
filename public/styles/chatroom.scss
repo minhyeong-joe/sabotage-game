@@ -1,0 +1,134 @@
+@import "variables";
+
+.card-header {
+    font-family: $roboto;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+.card-body {
+    position: relative;
+    height: 34rem;
+    padding: 0;
+    .row {
+        height: 34rem;
+    }
+}
+.left-panel {
+    border-right: 1px solid rgba(0,0,0,0.12);
+    height: 30rem;
+    overflow-y: scroll;
+    padding: 0.5rem;
+    li {
+        list-style: none;
+        font-size: 1.2rem;
+    }
+}
+
+.chat-area {
+    overflow-y: scroll;
+    height: 30rem;
+    padding: 0.5rem;
+}
+
+.custom-scroll::-webkit-scrollbar {
+    width: 0.7rem;
+}
+ 
+.custom-scroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+.message {
+    display: block;
+    padding: 1rem 1.5rem;
+    border-radius: 2.8rem;
+    margin-bottom: 0.7rem;
+    width: 80%;
+    .username {
+        font-family: $permanent-marker;
+        font-size: 1.1rem;
+    }
+    .content {
+        font-size: 1.5rem;
+    }
+    .timestamp {
+        text-align: right;
+    }
+}
+
+.my-message {
+    background-color: $teal;
+    margin-left: auto;
+}
+
+.other-message {
+    background-color: $primary;
+}
+
+.system-message {
+    width: 100%;
+    padding: 0 1.5rem;
+    .content {
+        text-align: center;
+    }
+}
+
+
+#message-form {
+    display: flex;
+}
+#message-input {
+    outline: none;
+    flex-grow: 1;
+    padding: 0.2rem 0.8rem;
+    border: 1px solid rgba(0,0,0,0.4);
+    border-right: none;
+    font-size: 1.2rem;
+    transition: border-color 0.1s ease-in;
+    &:focus {
+        border-color: rgba(0,0,0, 0.75);
+    }
+}
+#message-send-btn {
+    outline: none;
+    flex-grow: 0.1;
+    border: 1px solid rgba(0,0,0,0.12);
+    background-color: $teal;
+    color: white;
+    font-size: 1.4rem;
+    transition: filter 0.2s ease-in-out;
+    &:hover, &:focus {
+        filter: brightness(1.2);
+    }
+}
+
+#create-room-btn {
+    width: 100%;
+    border: 1px solid rgba(0,0,0,0.12);
+    background-color: $teal;
+    color: white;
+    font-size: 1.4rem;
+    transition: filter 0.2s ease-in-out;
+    overflow-x:hidden;
+    white-space: nowrap;
+    &:hover, &:focus {
+        filter: brightness(1.2);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .card-body {
+        height: 70rem;
+        .row {
+            height: 70rem;
+            &>div:first-child {
+                border-top: 2rem solid $primary;
+            }
+        }
+    }
+}
