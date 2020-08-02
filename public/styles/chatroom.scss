@@ -24,6 +24,17 @@
     }
 }
 
+.room-list {
+    li {
+        cursor: pointer;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s ease-in-out;
+        &:hover {
+            border-color: black;
+        }
+    }
+}
+
 .chat-area {
     overflow-y: scroll;
     height: 30rem;
@@ -82,7 +93,7 @@
 #message-form {
     display: flex;
 }
-#message-input {
+#messageInput {
     outline: none;
     flex-grow: 1;
     padding: 0.2rem 0.8rem;

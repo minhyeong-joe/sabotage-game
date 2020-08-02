@@ -19,19 +19,19 @@
         outline: none;
         padding: 0.7rem 1.2rem;
         border-radius: 2.5rem;
-        // font-family: $nanum-pen-script;
         font-size: 1.5rem;
         border: 2px solid rgba(0,0,0,0.12);
-        transition: border-color 0.25s ease-in-out;
+        transition: border-color 0.25s ease-in-out, width 0.15s ease-in;
+        width: 10rem;
         &:focus {
             border-color: rgba(0,0,0,0.75);
+            width: 15rem;
         }
     }
     button {
         margin-left: 0.3rem;
         outline: none;
         font-size: 1.5rem;
-        // font-family: $nanum-pen-script;
         padding: 0.7rem 1.5rem;
         border-radius: 2rem;
         border: none;

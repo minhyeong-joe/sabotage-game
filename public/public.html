@@ -16,8 +16,7 @@
             <div class="col-md-12 col-lg-8">
                 <!-- chat container -->
                 <div class="chat-container card">
-                    <div class="card-header">
-                        Public Area
+                    <div class="card-header" id="room-name">
                     </div>
                     <div class="card-body">
                         <div class="row no-gutters">
@@ -27,7 +26,7 @@
                                 <div class="left-panel custom-scroll">
                                     <div class="rooms">
                                         <h3><i class="fas fa-home"></i> Rooms</h3>
-                                        <ul>
+                                        <ul class="room-list">
                                             <li>room 1</li>
                                             <li>room 2</li>
                                         </ul>
@@ -35,10 +34,7 @@
                                         
                                     <div class="users">
                                         <h3><i class="fas fa-users"></i> Users</h3>
-                                        <ul>
-                                            <li>Billy</li>
-                                            <li>User 1</li>
-                                            <li>User 2</li>
+                                        <ul id="user-list">
                                         </ul>
                                     </div>
                                 </div>
@@ -56,50 +52,13 @@
                             <div class="col-12 col-md-9 order-0 order-md-1">
                                 <!-- chat area -->
                                 <div class="chat-area custom-scroll">
-                                    <div class="message system-message">
-                                        <div class="content">
-                                            Welcome to the Public Chatroom
-                                        </div>
-                                        <div class="timestamp">
-                                            2020-08-01 12:20:25 AM
-                                        </div>
-                                    </div>
-                                    <div class="my-message message">
-                                        <div class="username">
-                                            You
-                                        </div>
-                                        <div class="content">
-                                            Hello, My name is Billy Joe
-                                        </div>
-                                        <div class="timestamp">
-                                            2020-08-01 12:20:47 AM
-                                        </div>
-                                    </div>
-                                    <div class="other-message message">
-                                        <div class="username">
-                                            User 1
-                                        </div>
-                                        <div class="content">
-                                            Hi, Billy. I'm User 1
-                                        </div>
-                                        <div class="timestamp">
-                                            2020-08-01 12:21:23 AM
-                                        </div>
-                                    </div>
-                                    <div class="message system-message">
-                                        <div class="content">
-                                            User 2 has Joined
-                                        </div>
-                                        <div class="timestamp">
-                                            2020-08-01 1:12:43 AM
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <!-- end of chat area -->
                                 <!-- message input area -->
                                 <div class="card-footer">
                                     <form action="#" id="message-form">
-                                        <input type="text" id="message-input">
+                                        <input type="text" id="messageInput">
                                         <button type="submit" id="message-send-btn">SEND</button>
                                     </form>
                                 </div>
@@ -118,5 +77,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.4/qs.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="scripts/main.js"></script>
 </body>
 </html>
