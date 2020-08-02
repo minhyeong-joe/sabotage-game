@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const username = sessionStorage.getItem('username');
     
     const challenge = hash.hex(username);
-    console.log(challenge);
 
     if (!username || challenge != sessionStorage.getItem('token')) {
         // TODO: make error feedback look better
@@ -25,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // listens for current room and users info
         socket.on('roomUsers', ({room, users}) => {
-            console.log(users);
             renderRoomName(room);
             renderUserList(users);
         });

@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     usernameForm.addEventListener('submit', e => {
         e.preventDefault();
         const username = e.target.elements['username-input'].value;
-        console.log(`logging in ${username}`);
         const socket = io();
         socket.on('connect', () => {
             // check if username exists
