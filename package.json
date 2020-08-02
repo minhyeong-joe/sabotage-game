@@ -20,6 +20,7 @@
   "homepage": "https://github.com/minhyeong-joe/sabotage-game#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "jshashes": "^1.0.8",
     "moment": "^2.27.0",
     "socket.io": "^2.3.0"
   },

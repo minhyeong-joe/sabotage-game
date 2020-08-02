@@ -7,7 +7,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 const message = require("./models/message");
-const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./models/user');
+const { getAllUsers, userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./models/user');
 
 const PORT = process.env.PORT || 80;
 
@@ -16,6 +16,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 const bot = "ChatBot";
 // Socket io
 io.on('connection', socket => {
+    // log in a user
+    socket.on('checkUserExists', username => {
+        const users = getAllUsers();
+        if (users.find(user => user.username == username)) {
+            socket.emit('userExists', true);
+        } else {
+            socket.emit('userExists', false);
+        }
+    })
+
     // detect room join
     socket.on('joinRoom', ({ username, room }) => {
         const user = userJoin(socket.id, username, room);
@@ -27,7 +37,7 @@ io.on('connection', socket => {
         // user joined message to other users
         socket.broadcast.to(user.room).emit('message', message(null, bot, `${user.username} has joined the room!`));
 
-        // send users
+        // send current room name and users in the room
         io.to(user.room).emit('roomUsers', {
             room: user.room,
             users: getRoomUsers(user.room)
@@ -45,7 +55,7 @@ io.on('connection', socket => {
         const user = userLeave(socket.id);
         if (user) {
             io.to(user.room).emit('message', message(null, bot, `${user.username} has left the room.`));
-            // send users
+            // send current room name and users in the room
             io.to(user.room).emit('roomUsers', {
                 room: user.room,
                 users: getRoomUsers(user.room)

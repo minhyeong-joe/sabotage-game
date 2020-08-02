@@ -1,5 +1,10 @@
 let users = [];
 
+// get all users connected
+const getAllUsers = () => {
+    return users;
+}
+
 // join user to chat
 const userJoin = (id, username, room) => {
     const user = {
@@ -30,6 +35,7 @@ const getRoomUsers = room => {
 }
  
 module.exports = {
+    getAllUsers,
     userJoin,
     getCurrentUser,
     userLeave,
