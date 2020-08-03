@@ -1,0 +1,19 @@
+@import 'variables';
+@import 'chatroom';
+
+#topic-select {
+    width: 10rem;
+    display: inline-block;
+    margin-right: 2rem;
+}
+
+#start-game-btn {
+    @extend #create-room-btn;
+    width: 10rem;
+}
+
+#list-of-words {
+    max-height: 10rem;
+    overflow-y: auto;
+    margin-top: 1rem;
+}

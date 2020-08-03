@@ -9,11 +9,47 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/chatroom.css">
+    <link rel="stylesheet" href="styles/game.css">
 </head>
 <body>
-    <div class="container-fluid main-container">
-        <div class="row justify-content-center pt-5">
-            <div class="col-md-12 col-lg-8">
+    <div class="container-fluid main-container py-5">
+        <div class="row justify-content-center mb-3">
+            <div class="col-12 col-lg-8 text-center">
+                <!-- Game Start Button -->
+                <select class="form-control" name="topic" id="topic-select">
+                    <option value="animal">Animal</option>
+                    <option value="place">Place</option>
+                </select>
+                <button id="start-game-btn" class="btn">Start Game</button>
+
+                <!-- Agents -->
+                <!-- <h1 class="mb-0">You are an Agent</h1>
+                <h3 class="mb-0">The word is <span class="answer-word">Cat</span></h3>
+                <h3>Find the spy!</h3> -->
+
+                <!-- Spy -->
+                <!-- <h1 class="mb-0">You are a Spy</h1>
+                <h3>Guess the word and Sabotage the mission!</h3> -->
+
+                <!-- List of words -->
+                <!-- <a class="btn btn-secondary" data-toggle="collapse" href="#list-of-words" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    List of Words
+                </a>
+                <div class="collapse" id="list-of-words">
+                    <ul class="list-group">
+                        <li class="list-group-item">Cat</li>
+                        <li class="list-group-item">Cow</li>
+                        <li class="list-group-item">Dog</li>
+                        <li class="list-group-item">Elephant</li>
+                        <li class="list-group-item">Gorilla</li>
+                        <li class="list-group-item">Zebra</li>
+                    </ul>
+                </div> -->
+
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
                 <!-- chat container -->
                 <div class="chat-container card">
                     <div class="card-header" id="room-name">
@@ -53,6 +89,10 @@
                                     </form>
                                 </div>
                                 <!-- end of message input area -->
+                                <div class="game-buttons my-2 text-center d-block d-lg-none">
+                                    <button class="btn btn-danger" disabled>Sabotage</button>
+                                    <button class="btn btn-info" disabled>Ready to Vote</button>
+                                </div>
                             </div>
                             <!-- end of right panel -->
                         </div>
@@ -60,6 +100,10 @@
                     
                 </div>
                 <!-- end of chat container-->
+                <div class="game-buttons my-2 text-center d-none d-lg-block">
+                    <button class="btn btn-danger" disabled>Sabotage</button>
+                    <button class="btn btn-info" disabled>Ready to Vote</button>
+                </div>
             </div>
         </div>
     </div>

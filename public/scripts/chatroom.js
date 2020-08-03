@@ -34,17 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // listens for a message
         socket.on('message', data => {
             // if at the bottom, then automatically scroll to new message
-            let autoScroll = false;
-            if (chatWindow.scrollTop == chatWindow.scrollHeight-480) {
-                autoScroll = true;
-            }
+            // let autoScroll = false;
+            // if (chatWindow.scrollTop == chatWindow.scrollHeight-480) {
+            //     autoScroll = true;
+            // }
             renderChatMessage(sessionId, data);
-            if (autoScroll) {
+            // if (autoScroll) {
                 chatWindow.scrollTop = chatWindow.scrollHeight;
-            } else {
+            // } else {
                 // TODO: scroll to bottom button activation
                 // show something to indicate there's new message and allow user to click to scroll down
-            }
+            // }
         });
 
     });

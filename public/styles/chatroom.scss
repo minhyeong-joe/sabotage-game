@@ -26,10 +26,22 @@
 
 .room-list {
     li {
-        border-bottom: 1px solid transparent;
-        transition: border-color 0.2s ease-in-out;
-        &:hover {
-            border-color: black;
+        opacity: 0.6;
+        transition: opacity 0.2s ease-in-out;
+        position: relative;
+        &::before {
+            content: '\f105';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            opacity: 0;
+            position: absolute;
+            left: -1rem;
+        }
+        &:hover, &:focus {
+            opacity: 1;
+            &::before {
+                opacity: 1;
+            }
         }
     }
 }
@@ -55,16 +67,17 @@
 
 .message {
     display: block;
-    padding: 1rem 1.5rem;
+    padding: 0.8rem 1.5rem;
     border-radius: 2.8rem;
     margin-bottom: 0.7rem;
     width: 80%;
     .username {
         font-family: $permanent-marker;
         font-size: 1.1rem;
+        margin-left: -0.2rem;
     }
     .content {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
     .timestamp {
         text-align: right;
@@ -140,12 +153,9 @@
 
 @media screen and (max-width: 768px) {
     .card-body {
-        height: 70rem;
+        height: 70.5rem;
         .row {
-            height: 70rem;
-            &>div:first-child {
-                border-top: 2rem solid $primary;
-            }
+            height: 70.5rem;
         }
     }
 }
