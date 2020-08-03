@@ -32,10 +32,10 @@ io.on('connection', socket => {
         socket.join(user.room);
 
         // welcome message to connected user
-        socket.emit('message', message(null, bot, `Welcome to the ${user.room}`));
+        socket.emit('message', message(null, bot, `Welcome to the ${user.room} !`));
 
         // user joined message to other users
-        socket.broadcast.to(user.room).emit('message', message(null, bot, `${user.username} has joined the room!`));
+        socket.broadcast.to(user.room).emit('message', message(null, bot, `${user.username} has joined the ${user.room} !`));
 
         // send current room name and users in the room
         io.to(user.room).emit('roomUsers', {
@@ -54,7 +54,7 @@ io.on('connection', socket => {
     socket.on('disconnect', () => {
         const user = userLeave(socket.id);
         if (user) {
-            io.to(user.room).emit('message', message(null, bot, `${user.username} has left the room.`));
+            io.to(user.room).emit('message', message(null, bot, `${user.username} has left the ${user.room}`));
             // send current room name and users in the room
             io.to(user.room).emit('roomUsers', {
                 room: user.room,

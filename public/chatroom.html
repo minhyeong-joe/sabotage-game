@@ -24,20 +24,6 @@
                             <div class="col-12 col-md-3 order-1 order-md-0">
                                 <!-- rooms and users container -->
                                 <div class="left-panel custom-scroll">
-                                    <div class="rooms">
-                                        <h3><i class="fas fa-home"></i> Rooms</h3>
-                                        <ul class="room-list">
-                                            <a href="/chatroom.html?room=room1">
-                                                <li>
-                                                    room 1
-                                                </li>
-                                            </a>
-                                            <a href="/chatroom.html?room=room2">
-                                                <li>room 2</li>
-                                            </a>
-                                        </ul>
-                                    </div>
-                                        
                                     <div class="users">
                                         <h3><i class="fas fa-users"></i> Users</h3>
                                         <ul id="user-list">
@@ -47,7 +33,7 @@
                                 <!-- end of rooms and users container -->
                                 <!-- create new room button area -->
                                 <div class="card-footer">
-                                    <button type="button" id="create-room-btn">Create Room</button>
+                                    <a id="exit-room-btn" href="/public.html">Exit Room</a>
                                 </div>
                                 <!-- end of create new room button area -->
                             </div>
@@ -83,6 +69,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://cdn.rawgit.com/h2non/jsHashes/master/hashes.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="scripts/main.js"></script>
+    <script src="scripts/chatroom.js"></script>
 </body>
 </html>

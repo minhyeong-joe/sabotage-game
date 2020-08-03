@@ -2,7 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const hash = new Hashes.SHA256;
     const chatForm = document.getElementById('message-form');
     const chatWindow = document.querySelector('.chat-area');
-    const createRoomBtn = document.getElementById('create-room-btn');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomName = urlParams.get('room');
 
     const username = sessionStorage.getItem('username');
     
@@ -21,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const sessionId = socket.id;
 
         // join public room
-        socket.emit('joinRoom', { username, room: 'Public Area' });
+        socket.emit('joinRoom', { username, room: roomName });
 
         // listens for current room and users info
         socket.on('roomUsers', ({room, users}) => {
@@ -47,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
-    
     // sending message
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -56,12 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.emit('chatMessage', msg);
         e.target.elements.messageInput.value = '';
         e.target.elements.messageInput.focus();
-    });
-
-
-    // create room
-    createRoomBtn.addEventListener('click', e => {
-        e.preventDefault();
     });
 
 
