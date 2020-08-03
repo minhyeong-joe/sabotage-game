@@ -3,6 +3,14 @@ html, body {
     font-family: $nanum-pen-script;
 }
 
+a {
+    color: inherit;
+    &:hover, &:focus {
+        text-decoration: none;
+        color: inherit;
+    }
+}
+
 .main-container {
     background-color: $danger;
     min-height: 100vh;

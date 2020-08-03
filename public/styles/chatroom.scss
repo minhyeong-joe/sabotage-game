@@ -26,7 +26,6 @@
 
 .room-list {
     li {
-        cursor: pointer;
         border-bottom: 1px solid transparent;
         transition: border-color 0.2s ease-in-out;
         &:hover {
@@ -130,6 +129,13 @@
     &:hover, &:focus {
         filter: brightness(1.2);
     }
+}
+
+#exit-room-btn {
+    @extend #create-room-btn;
+    background-color: firebrick;
+    display: block;
+    text-align: center;
 }
 
 @media screen and (max-width: 768px) {
