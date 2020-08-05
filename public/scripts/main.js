@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // listens for room creation/deletion
         socket.on('roomsChange', rooms => {
-            console.log(rooms);
             renderRooms(rooms);
         });
 
@@ -113,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // add existing rooms to room list
     const renderRooms = rooms => {
         document.getElementById('room-list').innerHTML = `
-            ${rooms.map(room => `<a href="/chatroom.html?room=${room}"><li>${room}</li></a>`).join('')}
+            ${rooms.filter(room => !room.isPlaying).map(room => `<a href="/chatroom.html?room=${room.name}"><li>${room.name}</li></a>`).join('')}
         `;
     }
 

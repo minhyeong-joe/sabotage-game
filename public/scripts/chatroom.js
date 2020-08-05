@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatWindow = document.querySelector('.chat-area');
     const topicSelect = document.getElementById('topic-select');
     const startGameBtn = document.getElementById('start-game-btn');
+    const readyToVoteBtn = document.getElementById('ready-to-vote-btn');
+    const sabotageBtn = document.getElementById('sabotage-btn');
+    const voteBtn = document.getElementById('vote-btn');
 
     const urlParams = new URLSearchParams(window.location.search);
     const roomName = urlParams.get('room');
@@ -12,8 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const challenge = hash.hex(username);
 
+    // game stats
+    let isHost = false;
     let isSpy = false;
-    let gameRunning = false;
+    let isAlive = false;
 
     if (!username || challenge != sessionStorage.getItem('token')) {
         // TODO: make error feedback look better
@@ -25,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const socket = io();
 
     socket.on('connect', () => {
-        const sessionId = socket.id;
 
         // check if room is valid
         socket.on('roomExists', roomExists => {
@@ -42,6 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.on('roomUsers', ({room, users}) => {
             renderRoomName(room);
             renderUserList(users);
+            if (users[0].id == socket.id) {
+                isHost = true;
+            }
         });
 
         // listens for topic change
@@ -51,6 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // listens for game start
         socket.on('gameStart', game => {
+            chatWindow.innerHTML = "";
+            renderChatMessage(socket.id, {id: null, username: "ChatBot", message: "The Game has started!", time: new Date().toLocaleTimeString()});
             document.querySelector('.game-start-container').classList.add("d-none");
             document.querySelector('.list-of-words-toggle').classList.remove('d-none');
             document.getElementById('ready-to-vote-btn').removeAttribute('disabled');
@@ -62,12 +71,71 @@ document.addEventListener('DOMContentLoaded', () => {
             if (game.role == 'spy') {
                 document.querySelector('.spy-view').classList.remove('d-none');
                 document.getElementById('sabotage-btn').removeAttribute('disabled');
+                isSpy = true;
             } 
             // else agent
             else {
                 document.getElementById('answer-word').innerText = game.word;
                 document.querySelector('.agent-view').classList.remove('d-none');
             }
+            // all players
+            isAlive = true;
+        });
+
+        // listens for vote time
+        socket.on('vote', survived => {
+            // disable sabotage btn
+            sabotageBtn.setAttribute('disabled', true);
+            console.log("Vote time");
+            const voteSelect = document.getElementById('vote-select');
+            voteSelect.innerHTML = '<option value="skip">Skip Vote</option>';
+            voteSelect.innerHTML += `
+                ${survived.map(surv => `<option value="${surv.id}">${surv.username}</option>`).join('')}
+            `;
+            $('#vote-modal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+        });
+
+        // listens for the vote done
+        socket.on('voteDone', deadId => {
+
+            if (deadId == socket.id) {
+                // if spy got voted, agents wins
+                if (isSpy) {
+                    socket.emit('agentsWin', username);
+                }
+                isAlive = false;
+                readyToVoteBtn.setAttribute('disabled', true);
+                sabotageBtn.setAttribute('disabled', true);
+            } else {
+                readyToVoteBtn.removeAttribute('disabled');
+                if (isSpy) {
+                    sabotageBtn.removeAttribute('disabled');
+                }
+            }
+        });
+
+        // listens for spy win
+        socket.on('spyWins', () => {
+            if (isSpy) {
+                socket.emit('spyWins', username);
+            }
+        });
+
+        // listens for game end
+        socket.on('endGame', () => {
+            // un-initialize the game and disable game buttons
+            document.querySelector('.game-start-container').classList.remove("d-none");
+            document.querySelector('.list-of-words-toggle').classList.add('d-none');
+            document.getElementById('sabotage-btn').setAttribute('disabled',true);
+            document.getElementById('ready-to-vote-btn').setAttribute('disabled', true);
+            document.querySelector('.spy-view').classList.add('d-none');
+            document.getElementById('answer-word').innerText = "";
+            document.querySelector('.agent-view').classList.add('d-none');
+            isSpy = false;
+            isAlive = false;
         });
 
         // listens for a message
@@ -77,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // if (chatWindow.scrollTop == chatWindow.scrollHeight-480) {
             //     autoScroll = true;
             // }
-            renderChatMessage(sessionId, data);
+            renderChatMessage(socket.id, data);
             // if (autoScroll) {
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             // } else {
@@ -85,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // show something to indicate there's new message and allow user to click to scroll down
             // }
         });
+
 
     });
 
@@ -100,14 +169,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // send selected topic to everyone to see
     topicSelect.addEventListener('change', e => {
+        if (!isHost) {
+            e.preventDefault();
+            return;
+        }
         const selectedTopic = e.target.value;
         socket.emit('topicChange', selectedTopic);
     });
 
     // start game
     startGameBtn.addEventListener('click', () => {
+        if (!isHost) {
+            return;
+        }
         socket.emit('gameStart', topicSelect.value);
     });
+
+    // ready to vote btn
+    readyToVoteBtn.addEventListener('click', () => {
+        if (!isAlive) {
+            return;
+        }
+        socket.emit('readyToVote');
+        console.log("ready to vote");
+        readyToVoteBtn.setAttribute('disabled', true);
+    });
+
+    // vote btn
+    voteBtn.addEventListener('click', () => {
+        if (!isAlive) {
+            return;
+        }
+        const voted = document.getElementById('vote-select').value;
+        console.log(voted);
+        socket.emit('vote', voted);
+        $('#vote-modal').modal('hide');
+    });
+
+
+    // sabotage btn
+    sabotageBtn.addEventListener('click', () => {
+        if (!isAlive) {
+            return;
+        }
+        if (isSpy) {
+            socket.emit('sabotage');
+            console.log("sabotage");
+        }
+    });
+
 
     // generate chat messages
     const renderChatMessage = (sessionId, data) => {
