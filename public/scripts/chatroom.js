@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const hash = new Hashes.SHA256;
     const chatForm = document.getElementById('message-form');
     const chatWindow = document.querySelector('.chat-area');
+    const topicSelect = document.getElementById('topic-select');
+    const startGameBtn = document.getElementById('start-game-btn');
 
     const urlParams = new URLSearchParams(window.location.search);
     const roomName = urlParams.get('room');
@@ -9,6 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const username = sessionStorage.getItem('username');
     
     const challenge = hash.hex(username);
+
+    let isSpy = false;
+    let gameRunning = false;
 
     if (!username || challenge != sessionStorage.getItem('token')) {
         // TODO: make error feedback look better
@@ -22,13 +27,47 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('connect', () => {
         const sessionId = socket.id;
 
-        // join public room
+        // check if room is valid
+        socket.on('roomExists', roomExists => {
+            if (!roomExists) {  
+                window.location.replace('/public.html');
+                return;
+            }
+        });
+
+        // join specific room
         socket.emit('joinRoom', { username, room: roomName });
 
         // listens for current room and users info
         socket.on('roomUsers', ({room, users}) => {
             renderRoomName(room);
             renderUserList(users);
+        });
+
+        // listens for topic change
+        socket.on('topicChange', topic => {
+            topicSelect.value = topic;
+        });
+
+        // listens for game start
+        socket.on('gameStart', game => {
+            document.querySelector('.game-start-container').classList.add("d-none");
+            document.querySelector('.list-of-words-toggle').classList.remove('d-none');
+            document.getElementById('ready-to-vote-btn').removeAttribute('disabled');
+            const options = game.list.map(option => `<li class="list-group-item">${option}</li>`).join('');
+            document.querySelector('.list-group').innerHTML = `
+            ${game.list.map(option => `<li class="list-group-item">${option}</li>`).join('')}
+            `
+            // if spy
+            if (game.role == 'spy') {
+                document.querySelector('.spy-view').classList.remove('d-none');
+                document.getElementById('sabotage-btn').removeAttribute('disabled');
+            } 
+            // else agent
+            else {
+                document.getElementById('answer-word').innerText = game.word;
+                document.querySelector('.agent-view').classList.remove('d-none');
+            }
         });
 
         // listens for a message
@@ -59,6 +98,16 @@ document.addEventListener('DOMContentLoaded', () => {
         e.target.elements.messageInput.focus();
     });
 
+    // send selected topic to everyone to see
+    topicSelect.addEventListener('change', e => {
+        const selectedTopic = e.target.value;
+        socket.emit('topicChange', selectedTopic);
+    });
+
+    // start game
+    startGameBtn.addEventListener('click', () => {
+        socket.emit('gameStart', topicSelect.value);
+    });
 
     // generate chat messages
     const renderChatMessage = (sessionId, data) => {
@@ -94,6 +143,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // add users to user list
     const renderUserList = users => {
+        // the first user in user list is always the host
+        if (users[0].username == username) {
+            topicSelect.removeAttribute('disabled');
+            startGameBtn.removeAttribute('disabled');
+        }
         document.getElementById('user-list').innerHTML = `
             ${users.map(user => `<li>${user.username}</li>`).join('')}
         `;

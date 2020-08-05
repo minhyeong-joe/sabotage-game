@@ -29,6 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
             renderUserList(users);
         });
 
+        // listens for room creation/deletion
+        socket.on('roomsChange', rooms => {
+            console.log(rooms);
+            renderRooms(rooms);
+        });
+
         // listens for a message
         socket.on('message', data => {
             // if at the bottom, then automatically scroll to new message
@@ -101,6 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderUserList = users => {
         document.getElementById('user-list').innerHTML = `
             ${users.map(user => `<li>${user.username}</li>`).join('')}
+        `;
+    }
+
+    // add existing rooms to room list
+    const renderRooms = rooms => {
+        document.getElementById('room-list').innerHTML = `
+            ${rooms.map(room => `<a href="/chatroom.html?room=${room}"><li>${room}</li></a>`).join('')}
         `;
     }
 

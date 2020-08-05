@@ -17,3 +17,14 @@
     overflow-y: auto;
     margin-top: 1rem;
 }
+
+#user-list {
+    
+    li:first-child::after {
+        content: ' \f521';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        font-size: 0.9rem;
+        vertical-align: top;
+    }
+}

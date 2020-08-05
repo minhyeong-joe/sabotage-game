@@ -16,35 +16,35 @@
         <div class="row justify-content-center mb-3">
             <div class="col-12 col-lg-8 text-center">
                 <!-- Game Start Button -->
-                <select class="form-control" name="topic" id="topic-select">
-                    <option value="animal">Animal</option>
-                    <option value="place">Place</option>
-                </select>
-                <button id="start-game-btn" class="btn">Start Game</button>
+                <div class="game-start-container">
+                    <select class="form-control" name="topic" id="topic-select" disabled>
+                        <option value="animal">Animal</option>
+                        <option value="place">Place</option>
+                    </select>
+                    <button id="start-game-btn" class="btn" disabled>Start Game</button>
+                </div>
 
                 <!-- Agents -->
-                <!-- <h1 class="mb-0">You are an Agent</h1>
-                <h3 class="mb-0">The word is <span class="answer-word">Cat</span></h3>
-                <h3>Find the spy!</h3> -->
+                <div class="agent-view d-none">
+                    <h1 class="mb-0">You are an Agent</h1>
+                    <h3 class="mb-0">The word is <span id="answer-word"></span></h3>
+                    <h3>Find the spy!</h3>
+                </div>
 
                 <!-- Spy -->
-                <!-- <h1 class="mb-0">You are a Spy</h1>
-                <h3>Guess the word and Sabotage the mission!</h3> -->
+                <div class="spy-view d-none">
+                    <h1 class="mb-0">You are a Spy</h1>
+                    <h3>Guess the word and Sabotage the mission!</h3>
+                </div>
 
                 <!-- List of words -->
-                <!-- <a class="btn btn-secondary" data-toggle="collapse" href="#list-of-words" role="button" aria-expanded="false" aria-controls="collapseExample">
+                <a class="btn btn-secondary list-of-words-toggle d-none" data-toggle="collapse" href="#list-of-words" role="button" aria-expanded="false" aria-controls="collapseExample">
                     List of Words
                 </a>
                 <div class="collapse" id="list-of-words">
                     <ul class="list-group">
-                        <li class="list-group-item">Cat</li>
-                        <li class="list-group-item">Cow</li>
-                        <li class="list-group-item">Dog</li>
-                        <li class="list-group-item">Elephant</li>
-                        <li class="list-group-item">Gorilla</li>
-                        <li class="list-group-item">Zebra</li>
                     </ul>
-                </div> -->
+                </div>
 
             </div>
         </div>
@@ -101,8 +101,8 @@
                 </div>
                 <!-- end of chat container-->
                 <div class="game-buttons my-2 text-center d-none d-lg-block">
-                    <button class="btn btn-danger" disabled>Sabotage</button>
-                    <button class="btn btn-info" disabled>Ready to Vote</button>
+                    <button class="btn btn-danger" id="sabotage-btn" disabled>Sabotage</button>
+                    <button class="btn btn-info" id="ready-to-vote-btn" disabled>Ready to Vote</button>
                 </div>
             </div>
         </div>
