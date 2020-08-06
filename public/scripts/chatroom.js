@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.spy-view').classList.add('d-none');
             document.getElementById('answer-word').innerText = "";
             document.querySelector('.agent-view').classList.add('d-none');
+            document.querySelector('.dead-view').classList.add('d-none');
             isSpy = false;
             isAlive = false;
         });
