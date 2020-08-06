@@ -172,7 +172,7 @@ io.on('connection', socket => {
                 users: getRoomUsers(user.room)
             });
         }
-        if (user.room != 'Public Area') {
+        if (user && user.room != 'Public Area') {
             const room = getAllRooms().find(room => room.name == user.room);
             if (room.isPlaying) {
                 // reset in-server game stat
