@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const readyToVoteBtn = document.getElementById('ready-to-vote-btn');
     const sabotageBtn = document.getElementById('sabotage-btn');
     const voteBtn = document.getElementById('vote-btn');
+    const challengeBtn = document.getElementById('challenge-btn');
 
     const urlParams = new URLSearchParams(window.location.search);
     const roomName = urlParams.get('room');
@@ -63,10 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.game-start-container').classList.add("d-none");
             document.querySelector('.list-of-words-toggle').classList.remove('d-none');
             document.getElementById('ready-to-vote-btn').removeAttribute('disabled');
-            const options = game.list.map(option => `<li class="list-group-item">${option}</li>`).join('');
             document.querySelector('.list-group').innerHTML = `
             ${game.list.map(option => `<li class="list-group-item">${option}</li>`).join('')}
-            `
+            `;
+            document.getElementById('sabotage-select').innerHTML = `
+            ${game.list.map(option => `<option value="${option}">${option}</option>`).join('')}
+            `;
             // if spy
             if (game.role == 'spy') {
                 document.querySelector('.spy-view').classList.remove('d-none');
@@ -86,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.on('vote', survived => {
             // disable sabotage btn
             sabotageBtn.setAttribute('disabled', true);
-            console.log("Vote time");
             const voteSelect = document.getElementById('vote-select');
             voteSelect.innerHTML = '<option value="skip">Skip Vote</option>';
             voteSelect.innerHTML += `
@@ -114,6 +116,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (isSpy) {
                     sabotageBtn.removeAttribute('disabled');
                 }
+            }
+        });
+
+        // listens for sabotage attempt
+        socket.on('sabotage', () => {
+            readyToVoteBtn.setAttribute('disabled', true);
+            sabotageBtn.setAttribute('disabled', true);
+            if (isSpy) {
+                $('#sabotage-modal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
             }
         });
 
@@ -191,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         socket.emit('readyToVote');
-        console.log("ready to vote");
         readyToVoteBtn.setAttribute('disabled', true);
     });
 
@@ -201,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const voted = document.getElementById('vote-select').value;
-        console.log(voted);
         socket.emit('vote', voted);
         $('#vote-modal').modal('hide');
     });
@@ -214,7 +226,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (isSpy) {
             socket.emit('sabotage');
-            console.log("sabotage");
+        }
+    });
+
+    // confirm sabotage btn
+    challengeBtn.addEventListener('click', () => {
+        if (isSpy) {
+            const guess = document.getElementById('sabotage-select').value;
+            socket.emit('guess', guess);
+            $('#sabotage-modal').modal('hide');
         }
     });
 

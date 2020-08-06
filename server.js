@@ -8,7 +8,7 @@ const io = socketio(server);
 
 const message = require("./models/message");
 const { getAllUsers, userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./models/user');
-const { getAllRooms, startGame, endGame, getReadyToVote, addReadyToVote, resetVotes, getSurvived, killSurvivor, addVote, getMostVoted, getTotalVotes } = require('./models/room');
+const { getAllRooms, startGame, endGame, getReadyToVote, addReadyToVote, resetVotes, getSurvived, killSurvivor, addVote, getMostVoted, getTotalVotes, getAnswer } = require('./models/room');
 const { getAllWords, getRandomWord, getRandomSpy } = require('./models/game');
 const { kill } = require('process');
 
@@ -63,7 +63,7 @@ io.on('connection', socket => {
             const spy = getRandomSpy(allUsers);
             const agents = allUsers.filter(user => user.id != spy.id);
             const answer = getRandomWord(topic);
-            startGame(user.room, allUsers, 0);
+            startGame(user.room, allUsers, answer);
             // set this room to be invisible to public area
             io.to('Public Area').emit('roomsChange', getAllRooms());
             io.to(spy.id).emit('gameStart', {role: 'spy', list: getAllWords(topic)});
@@ -110,6 +110,28 @@ io.on('connection', socket => {
                     }
                 }
                 resetVotes(user.room);
+            }
+        });
+
+        // listens for sabotage attempt
+        socket.on('sabotage', () => {
+            const user = getCurrentUser(socket.id);
+            io.to(user.room).emit('message', message(null, bot, `Spy ${user.username} is attempting the Sabotage!`));
+            io.to(user.room).emit('sabotage');
+        });
+
+        // listens for sabotage guess and match answer
+        socket.on('guess', guess => {
+            io.to(user.room).emit('message', message(null, bot, `Spy ${user.username}'s Guess: ${guess}`));
+            if (guess == getAnswer(user.room)) {
+                io.to(user.room).emit('message', message(null, bot, `Spy has correctly sabotaged the secret word: ${guess}`));
+                io.to(user.room).emit('spyWins');
+            } else {
+                io.to(user.room).emit('message', message(null, bot, `Agents Won!\nThe secret key was ${getAnswer(user.room)}`));
+                // reset in-server game stat
+                endGame(user.room);
+                // tell client game is over
+                io.to(user.room).emit('endGame');
             }
         });
 

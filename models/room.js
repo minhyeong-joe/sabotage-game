@@ -5,7 +5,8 @@ const rooms = [
         password: null,
         survived: [],
         readyToVote: [],
-        votes: {}
+        votes: {},
+        answer: null
     }
 ];
 
@@ -15,10 +16,11 @@ const getAllRooms = () => {
 }
 
 // start the game for the room
-const startGame = (roomName, survived) => {
+const startGame = (roomName, survived, answer) => {
     let room = rooms.find(room=>room.name == roomName);
     room.isPlaying = true;
     room.survived = survived;
+    room.answer = answer;
 }
 
 // end the game for the room
@@ -84,6 +86,12 @@ const getTotalVotes = roomName => {
     console.log(Object.keys(room.votes).reduce((a,b) => room.votes[a] + room.votes[b]))
     return Object.keys(room.votes).reduce((sum,key) => sum + room.votes[key], 0);
 }
+
+// get answer
+const getAnswer = roomName => {
+    let room = rooms.find(room => room.name == roomName);
+    return room.answer;
+}
  
 module.exports = {
     getAllRooms,
@@ -96,5 +104,6 @@ module.exports = {
     killSurvivor,
     addVote,
     getMostVoted,
-    getTotalVotes
+    getTotalVotes,
+    getAnswer
 }
