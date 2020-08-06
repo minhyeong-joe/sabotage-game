@@ -1,5 +1,5 @@
 @import 'variables';
-@import 'chatroom';
+@import 'public';
 
 #topic-select {
     width: 10rem;
@@ -13,7 +13,7 @@
 }
 
 #list-of-words {
-    max-height: 10rem;
+    max-height: 20rem;
     overflow-y: auto;
     margin-top: 1rem;
 }

@@ -1,6 +1,6 @@
 const topics = {
-    "animal": ["Cat", "Dog", "Elephant", "Fox", "Zebra"],
-    "place": ["Aquarium", "Restaurant", "Market", "Zoo"]
+    "animal": ["Alligator", "Bear", "Camel", "Cat", "Cheetah", "Chicken", "Chimpanzee", "Cow", "Crocodile", "Deer", "Dog", "Dolphin", "Duck", "Eagle", "Elephant", "Fox", "Frog", "Giraffe", "Goat", "Hamster", "Hippopotamus", "Horse", "Kangaroo", "Lion", "Monkey", "Owl", "Panda", "Pig", "Rabbit", "Rat", "Scorpion", "Seal", "Shark", "Sheep", "Snake", "Squirrel", "Tiger", "Turtle", "Wolf", "Zebra"],
+    "place": ["Airport", "Aquarium", "Bakery", "Bank", "Bar", "Bookstore", "Bus Station", "Cafe", "Church", "Court", "Gym", "Hospital", "Hotel", "Library", "Mall", "Museum", "Pharmacy", "Restaurant", "School", "Supermarket", "Zoo"]
 };
 
 // get entire list under topic

@@ -109,6 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     socket.emit('agentsWin', username);
                 }
                 isAlive = false;
+                document.querySelector('.agent-view').classList.add('d-none');
+                document.querySelector('.dead-view').classList.remove('d-none');
                 readyToVoteBtn.setAttribute('disabled', true);
                 sabotageBtn.setAttribute('disabled', true);
             } else {

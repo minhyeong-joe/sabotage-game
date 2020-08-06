@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/chatroom.css">
+    <link rel="stylesheet" href="styles/public.css">
 </head>
 <body>
     <div class="container-fluid main-container py-5">
@@ -67,6 +68,38 @@
                 </div>
                 <!-- end of chat container-->
             </div>
+
+            <!-- rules -->
+            <div class="col-12 col-lg-8 rule-container p-5 my-2">
+                <h1>Game Objectives:</h1>
+                <p>One of the players is randomly picked as a <span style="color:firebrick;">Spy</span style="color:firebrick;">.</p>
+                <p>The rest of the players will be playing as <span style="color: aquamarine;">Agents</span> and will be provided with a random <span style="color: forestgreen;">secret code word</span> under selected category.</p>
+                <p>The <span>Spy</span> does not know the secret code, but can see the list of words under the selected category.</p>
+                <p>During the game, ask questions and talk about the secret code discreetly to narrow down the Spy who does not know the secret code.</p>
+                <p>But do not be too direct, as the Spy may observe the conversation and sabotage the mission by guessing the correct secret key.</p>
+                <img class="spy-img img-fluid float-left mr-5" src="assets/spy.svg" alt="">
+                <h2>As a <span style="color:firebrick;">Spy</span>:</h2>
+                <ul>
+                    <li>Blend in and pretend you know the secret key.</li>
+                    <li>Try to persuade others to vote on one of the Agents.</li>
+                    <li>If you figured out the secret code, click on Sabotage to attempt a guess. (This will reveal yourself, and you will lose if you have the wrong secret code)</li>
+                </ul>
+
+                <img class="agent-img img-fluid float-right ml-5" src="assets/agent.png" alt="">
+                <h2 class="text-center">As an <span style="color: aquamarine;">Agent</span>:</h2>
+                <ul>
+                    <li>Ask good questions to find out the Spy.</li>
+                    <li>Give an adequate answer just enough to prove that you know the secret code while not giving it away to the Spy.</li>
+                    <li>Vote on a suspicious player (and hope for the best...)</li>
+                </ul>
+
+                <h2>General Rules:</h2>
+                <ul>
+                    <li><span style="color:firebrick;">Spy</span> can use <strong>Sabotage</strong> anytime except during the voting process.</li>
+                    <li>When there's a tie in the vote, a <strong>random</strong> player among the most voted will be voted out. So vote carefully!</li>
+                    <li>When there's only one Agent against the Spy, the Spy will win.</li>
+                </ul>
+            </div> 
         </div>
     </div>
 
