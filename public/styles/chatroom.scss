@@ -51,8 +51,9 @@
     margin-bottom: 0.7rem;
     width: 80%;
     .username {
-        font-family: $permanent-marker;
-        font-size: 1.1rem;
+        // font-family: $permanent-marker;
+        font-weight: 900;
+        font-size: 1.4rem;
         margin-left: -0.2rem;
     }
     .content {
@@ -64,12 +65,12 @@
 }
 
 .my-message {
-    background-color: $teal;
+    // background-color: $teal;
     margin-left: auto;
 }
 
 .other-message {
-    background-color: $primary;
+    // background-color: $primary;
 }
 
 .system-message {

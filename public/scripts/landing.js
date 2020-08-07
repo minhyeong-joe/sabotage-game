@@ -21,8 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     validateForm(false)
                 } else {
                     // redirect user to public with username
+                    const color = document.querySelector('.selected').style.backgroundColor;
                     sessionStorage.setItem('username', username);
                     sessionStorage.setItem('token', hash.hex(username));
+                    sessionStorage.setItem('color', color)
                     window.location.href = '/public.html';
                 }
             })
@@ -32,6 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // on input change, remove invalid properties
     usernameInput.addEventListener('input', e => {
         validateForm(true);
+    });
+
+    // on color select
+    $('.color:not(.selected)').on('click', e => {
+        console.log(e.target.style.backgroundColor);
+        $('.selected').removeClass('selected');
+        e.target.classList.add('selected');
     });
     
     // helper to add/remove invalid properties

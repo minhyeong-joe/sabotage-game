@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const roomName = urlParams.get('room');
 
     const username = sessionStorage.getItem('username');
+    const color = sessionStorage.getItem('color');
     
     const challenge = hash.hex(username);
 
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // join specific room
-        socket.emit('joinRoom', { username, room: roomName });
+        socket.emit('joinRoom', { username, room: roomName, color });
 
         // listens for current room and users info
         socket.on('roomUsers', ({room, users}) => {
@@ -240,11 +241,13 @@ document.addEventListener('DOMContentLoaded', () => {
             div.classList.add('system-message');
         } else if (data.userId == sessionId) {
             div.classList.add('my-message');
+            div.style.backgroundColor = data.color;
             div.innerHTML += `<div class="username">
                                 ${data.username}
                             </div>`;
         } else {
             div.classList.add('other-message');
+            div.style.backgroundColor = data.color;
             div.innerHTML += `<div class="username">
                                 ${data.username}
                             </div>`;

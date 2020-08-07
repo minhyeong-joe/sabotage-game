@@ -117,7 +117,7 @@ io.on('connection', socket => {
                     killSurvivor(user.room, votedUser.id);
                     io.to(user.room).emit('voteDone', votedUser.id);
                     // if num survivor == 2 that means it's 1v1, then spy wins
-                    if (getSurvived(user.room).length == 2) {
+                    if (getSurvived(user.room).length <= 2) {
                         // reset in-server game stat
                         endGame(user.room);
                         // tell client game is over
@@ -141,7 +141,7 @@ io.on('connection', socket => {
             io.to(user.room).emit('message', message(null, bot, `Spy ${user.username}'s Guess: ${guess}`));
             if (guess == getAnswer(user.room)) {
                 io.to(user.room).emit('message', message(null, bot, `Spy has correctly sabotaged the secret word: ${guess}`));
-                io.to(user.room).emit('message', message(null, bot, `Spy Won!\n${spy.username} was the spy`));
+                io.to(user.room).emit('message', message(null, bot, `Spy Won!\n${getSpy(user.room).username} was the spy`));
             } else {
                 io.to(user.room).emit('message', message(null, bot, `Agents Won!\nThe secret key was ${getAnswer(user.room)}`));
             }
@@ -154,7 +154,7 @@ io.on('connection', socket => {
     // listens for user's chat message
     socket.on('chatMessage', msg => {
         const user = getCurrentUser(socket.id);
-        io.to(user.room).emit('message', message(user.id, user.username, msg));
+        io.to(user.room).emit('message', message(user.id, user.username, msg, user.color));
     });
 
     // user disconnects
@@ -183,7 +183,7 @@ io.on('connection', socket => {
                     return;
                 }
                 // if 1v1, spy wins
-                if (getSurvived(user.room).length == 2) {
+                if (getSurvived(user.room).length <= 2) {
                     // reset in-server game stat
                     endGame(user.room);
                     // tell client game is over
