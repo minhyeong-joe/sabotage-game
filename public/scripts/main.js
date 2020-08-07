@@ -103,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // generate chat messages
     const renderChatMessage = (sessionId, data) => {
-        console.log(data);
         const div = document.createElement('div');
         div.classList.add('message');
         div.innerHTML = "";

@@ -8,7 +8,7 @@ const io = socketio(server);
 
 const message = require("./models/message");
 const { getAllUsers, userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./models/user');
-const { createRoom, getAllRooms, startGame, endGame, getReadyToVote, addReadyToVote, resetVotes, getSurvived, killSurvivor, addVote, getMostVoted, getTotalVotes, getAnswer, getSpy } = require('./models/room');
+const { createRoom, removeRoom, getAllRooms, startGame, endGame, getReadyToVote, addReadyToVote, resetVotes, getSurvived, killSurvivor, addVote, getMostVoted, getTotalVotes, getAnswer, getSpy } = require('./models/room');
 const { getAllWords, getRandomWord, getRandomSpy } = require('./models/game');
 
 const PORT = process.env.PORT || 80;
@@ -202,7 +202,13 @@ io.on('connection', socket => {
                     // tell client game is over
                     io.to(user.room).emit('message', message(null, bot, `Spy Won!\n${spy.username} is the spy`));
                     io.to(user.room).emit('endGame');
+                    return;
                 }
+            }
+            // destroy room if no one is in the room
+            if (getRoomUsers(user.room).length <= 0) {
+                removeRoom(user.room);
+                io.to('Public Area').emit('roomsChange', getAllRooms());
             }
         }
     });

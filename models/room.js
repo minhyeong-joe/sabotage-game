@@ -1,15 +1,4 @@
-const rooms = [
-    {
-        name: "room1",
-        isPlaying: false,
-        password: null,
-        survived: [],
-        readyToVote: [],
-        votes: {},
-        answer: null,
-        spy: null
-    }
-];
+let rooms = [];
 
 // create room
 const createRoom = (roomName, password) => {
@@ -25,6 +14,11 @@ const createRoom = (roomName, password) => {
     }
     rooms.push(room);
     return room;
+}
+
+// remove room
+const removeRoom = roomName => {
+    rooms =  rooms.filter(room => room.name != roomName);
 }
 
 // get all rooms
@@ -119,6 +113,7 @@ const getSpy = roomName => {
  
 module.exports = {
     createRoom,
+    removeRoom,
     getAllRooms,
     startGame,
     endGame,
