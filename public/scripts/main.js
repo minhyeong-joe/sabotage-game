@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatForm = document.getElementById('message-form');
     const chatWindow = document.querySelector('.chat-area');
     const createRoomBtn = document.getElementById('create-room-btn');
+    const createRoomForm = document.getElementById('create-room-form');
 
     const username = sessionStorage.getItem('username');
     const color = sessionStorage.getItem('color');
@@ -35,6 +36,18 @@ document.addEventListener('DOMContentLoaded', () => {
             renderRooms(rooms);
         });
 
+        // listens for room exists
+        socket.on('duplicateRoomName', () => {
+            document.getElementById('error-feedback').classList.remove('d-none');
+            document.getElementById('create-btn').setAttribute('disabled', true);
+        });
+
+        // listens for my room successfully created
+        socket.on('roomCreated', newRoom => {
+            $('#create-room-modal').modal('hide');
+            window.location.href = `/chatroom.html?room=${newRoom.name}`;
+        });
+
         // listens for a message
         socket.on('message', data => {
             // if at the bottom, then automatically scroll to new message
@@ -65,11 +78,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // create room
+    // create room modal
     createRoomBtn.addEventListener('click', e => {
         e.preventDefault();
+        $('#create-room-modal').modal();
     });
 
+    // create room
+    createRoomForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const roomName = e.target.elements['room-name-input'].value;
+        const password = e.target.elements['password-input'].value;
+        console.log(roomName);
+        console.log(password);
+        // send create room request to server (server will check if room name already in use)
+        socket.emit('createRoom', {roomName, password});
+    });
+
+    // when room name modified
+    document.getElementById('room-name-input').addEventListener('input', () => {
+        document.getElementById('error-feedback').classList.add('d-none');
+        document.getElementById('create-btn').removeAttribute('disabled');
+    });
 
     // generate chat messages
     const renderChatMessage = (sessionId, data) => {

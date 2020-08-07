@@ -8,9 +8,8 @@ const io = socketio(server);
 
 const message = require("./models/message");
 const { getAllUsers, userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./models/user');
-const { getAllRooms, startGame, endGame, getReadyToVote, addReadyToVote, resetVotes, getSurvived, killSurvivor, addVote, getMostVoted, getTotalVotes, getAnswer, getSpy } = require('./models/room');
+const { createRoom, getAllRooms, startGame, endGame, getReadyToVote, addReadyToVote, resetVotes, getSurvived, killSurvivor, addVote, getMostVoted, getTotalVotes, getAnswer, getSpy } = require('./models/room');
 const { getAllWords, getRandomWord, getRandomSpy } = require('./models/game');
-const { kill } = require('process');
 
 const PORT = process.env.PORT || 80;
 
@@ -27,7 +26,21 @@ io.on('connection', socket => {
         } else {
             socket.emit('userExists', false);
         }
-    })
+    });
+
+    // listens for room creation
+    socket.on('createRoom', ({roomName, password}) => {
+        if (getAllRooms().find(room => room.name == roomName)) {
+            // room exists
+            socket.emit('duplicateRoomName');
+        } else {
+            // room does not exist
+            const newRoom = createRoom(roomName, password);
+            socket.emit('roomCreated', newRoom);
+            // send existing rooms to public area
+            io.to('Public Area').emit('roomsChange', getAllRooms());
+        }
+    });
 
     // detect room join
     socket.on('joinRoom', ({ username, room, color }) => {

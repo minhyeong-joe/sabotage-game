@@ -11,6 +11,22 @@ const rooms = [
     }
 ];
 
+// create room
+const createRoom = (roomName, password) => {
+    const room = {
+        name: roomName,
+        isPlaying: false,
+        password: password == ""? null: password,
+        survived: [],
+        readyToVote: [],
+        votes: {},
+        answer: null,
+        spy: null
+    }
+    rooms.push(room);
+    return room;
+}
+
 // get all rooms
 const getAllRooms = () => {
     return rooms;
@@ -102,6 +118,7 @@ const getSpy = roomName => {
 }
  
 module.exports = {
+    createRoom,
     getAllRooms,
     startGame,
     endGame,
