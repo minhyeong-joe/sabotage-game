@@ -6,11 +6,12 @@ const getAllUsers = () => {
 }
 
 // join user to chat
-const userJoin = (id, username, room) => {
+const userJoin = (id, username, room, color) => {
     const user = {
         id,
         username,
-        room
+        room,
+        color
     };
     users.push(user);
     return user;

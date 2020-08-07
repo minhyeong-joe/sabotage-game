@@ -104,10 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.on('voteDone', deadId => {
 
             if (deadId == socket.id) {
-                // if spy got voted, agents wins
-                if (isSpy) {
-                    socket.emit('agentsWin', username);
-                }
                 isAlive = false;
                 document.querySelector('.agent-view').classList.add('d-none');
                 document.querySelector('.dead-view').classList.remove('d-none');
@@ -130,13 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     backdrop: 'static',
                     keyboard: false
                 });
-            }
-        });
-
-        // listens for spy win
-        socket.on('spyWins', () => {
-            if (isSpy) {
-                socket.emit('spyWins', username);
             }
         });
 

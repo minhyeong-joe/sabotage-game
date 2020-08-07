@@ -1,12 +1,13 @@
 const rooms = [
-    { 
+    {
         name: "room1",
         isPlaying: false,
         password: null,
         survived: [],
         readyToVote: [],
         votes: {},
-        answer: null
+        answer: null,
+        spy: null
     }
 ];
 
@@ -16,11 +17,12 @@ const getAllRooms = () => {
 }
 
 // start the game for the room
-const startGame = (roomName, survived, answer) => {
+const startGame = (roomName, survived, answer, spy) => {
     let room = rooms.find(room=>room.name == roomName);
     room.isPlaying = true;
     room.survived = survived;
     room.answer = answer;
+    room.spy = spy;
 }
 
 // end the game for the room
@@ -30,6 +32,8 @@ const endGame = roomName => {
     room.survived = [];
     room.readyToVote = [];
     room.votes = {};
+    room.spy = null;
+    room.answer = null;
 }
 
 // get the users that are readyToVote
@@ -89,8 +93,12 @@ const getTotalVotes = roomName => {
 
 // get answer
 const getAnswer = roomName => {
-    let room = rooms.find(room => room.name == roomName);
-    return room.answer;
+    return rooms.find(room => room.name == roomName).answer;
+}
+
+// get spy
+const getSpy = roomName => {
+    return rooms.find(room => room.name == roomName).spy;
 }
  
 module.exports = {
@@ -105,5 +113,6 @@ module.exports = {
     addVote,
     getMostVoted,
     getTotalVotes,
-    getAnswer
+    getAnswer,
+    getSpy
 }
