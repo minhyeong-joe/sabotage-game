@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const sabotageBtn = document.getElementById('sabotage-btn');
     const voteBtn = document.getElementById('vote-btn');
     const challengeBtn = document.getElementById('challenge-btn');
+    const messageInput = document.getElementById('messageInput');
+    const messageSendBtn = document.getElementById('message-send-btn');
 
     const urlParams = new URLSearchParams(window.location.search);
     const roomName = urlParams.get('room');
@@ -168,10 +170,21 @@ document.addEventListener('DOMContentLoaded', () => {
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const msg = e.target.elements.messageInput.value;
+        if (msg == "") {
+            return;
+        }
         // sent message to server
         socket.emit('chatMessage', msg);
         e.target.elements.messageInput.value = '';
         e.target.elements.messageInput.focus();
+    });
+
+    messageInput.addEventListener('input', e => {
+        if (e.target.value == "") {
+            messageSendBtn.setAttribute('disabled', true);
+        } else {
+            messageSendBtn.removeAttribute('disabled');
+        }
     });
 
     // send selected topic to everyone to see

@@ -183,8 +183,8 @@ io.on('connection', socket => {
         }
         if (user && user.room != 'Public Area') {
             const room = getAllRooms().find(room => room.name == user.room);
-            const spy = getSpy(user.room);
             if (room.isPlaying) {
+                const spy = getSpy(user.room);
                 killSurvivor(user.room, user.id);
                 // if user left is the spy
                 if (user.id == room.spy.id) {

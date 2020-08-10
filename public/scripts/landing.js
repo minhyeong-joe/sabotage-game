@@ -37,8 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // on color select
-    $('.color:not(.selected)').on('click', e => {
-        console.log(e.target.style.backgroundColor);
+    $('.color').on('click', e => {
         $('.selected').removeClass('selected');
         e.target.classList.add('selected');
     });

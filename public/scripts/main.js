@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatWindow = document.querySelector('.chat-area');
     const createRoomBtn = document.getElementById('create-room-btn');
     const createRoomForm = document.getElementById('create-room-form');
+    const messageInput = document.getElementById('messageInput');
+    const messageSendBtn = document.getElementById('message-send-btn');
 
     const username = sessionStorage.getItem('username');
     const color = sessionStorage.getItem('color');
@@ -71,12 +73,22 @@ document.addEventListener('DOMContentLoaded', () => {
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const msg = e.target.elements.messageInput.value;
+        if (msg == "") {
+            return;
+        }
         // sent message to server
         socket.emit('chatMessage', msg);
         e.target.elements.messageInput.value = '';
         e.target.elements.messageInput.focus();
     });
 
+    messageInput.addEventListener('input', e => {
+        if (e.target.value == "") {
+            messageSendBtn.setAttribute('disabled', true);
+        } else {
+            messageSendBtn.removeAttribute('disabled');
+        }
+    });
 
     // create room modal
     createRoomBtn.addEventListener('click', e => {
