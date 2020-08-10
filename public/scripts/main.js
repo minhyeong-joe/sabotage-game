@@ -6,11 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const createRoomForm = document.getElementById('create-room-form');
     const messageInput = document.getElementById('messageInput');
     const messageSendBtn = document.getElementById('message-send-btn');
+    const charCount = document.getElementById('current-character-count');
 
     const username = sessionStorage.getItem('username');
     const color = sessionStorage.getItem('color');
     
     const challenge = hash.hex(username);
+
+    let sendCooldown = 0;
+    let cdInterval;
 
     if (!username || challenge != sessionStorage.getItem('token')) {
         // TODO: make error feedback look better
@@ -76,10 +80,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (msg == "") {
             return;
         }
+        if (sendCooldown > 0) {
+            console.log("You can send message in " + sendCooldown + " seconds");
+            return;
+        }
         // sent message to server
         socket.emit('chatMessage', msg);
         e.target.elements.messageInput.value = '';
+        charCount.innerText = 0;
         e.target.elements.messageInput.focus();
+        messageSendBtn.setAttribute('disabled', true);
+        sendCooldown = 2;
+        cdInterval = setInterval(() => {
+            sendCooldown--;
+        }, 1000);
+        setTimeout(() => {
+            clearInterval(cdInterval);
+        }, 2000);
     });
 
     messageInput.addEventListener('input', e => {
@@ -88,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             messageSendBtn.removeAttribute('disabled');
         }
+        charCount.innerText = e.target.value.length;
     });
 
     // create room modal

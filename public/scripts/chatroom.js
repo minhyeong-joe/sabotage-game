@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const challengeBtn = document.getElementById('challenge-btn');
     const messageInput = document.getElementById('messageInput');
     const messageSendBtn = document.getElementById('message-send-btn');
+    const charCount = document.getElementById('current-character-count');
 
     const urlParams = new URLSearchParams(window.location.search);
     const roomName = urlParams.get('room');
@@ -18,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const color = sessionStorage.getItem('color');
     
     const challenge = hash.hex(username);
+
+    let sendCooldown = 0;
+    let cdInterval;
 
     // game stats
     let isHost = false;
@@ -173,10 +177,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (msg == "") {
             return;
         }
+        if (sendCooldown > 0) {
+            console.log("You can send message in " + sendCooldown + " seconds");
+            return;
+        }
         // sent message to server
         socket.emit('chatMessage', msg);
         e.target.elements.messageInput.value = '';
+        charCount.innerText = 0;
         e.target.elements.messageInput.focus();
+        messageSendBtn.setAttribute('disabled', true);
+        sendCooldown = 2;
+        cdInterval = setInterval(() => {
+            sendCooldown--;
+        }, 1000);
+        setTimeout(() => {
+            clearInterval(cdInterval);
+        }, 2000);
     });
 
     messageInput.addEventListener('input', e => {
@@ -185,6 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             messageSendBtn.removeAttribute('disabled');
         }
+        charCount.innerText = e.target.value.length;
     });
 
     // send selected topic to everyone to see

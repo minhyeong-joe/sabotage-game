@@ -55,9 +55,12 @@
                                 <!-- message input area -->
                                 <div class="card-footer">
                                     <form action="#" id="message-form">
-                                        <input type="text" id="messageInput" autocomplete="off">
+                                        <input type="text" id="messageInput" autocomplete="off" maxlength="100">
                                         <button type="submit" id="message-send-btn" disabled>SEND</button>
                                     </form>
+                                    <div class="text-center">
+                                        <span id="current-character-count">0</span>/100 characters
+                                    </div>
                                 </div>
                                 <!-- end of message input area -->
                             </div>

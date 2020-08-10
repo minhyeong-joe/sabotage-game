@@ -8,10 +8,10 @@
 }
 .card-body {
     position: relative;
-    height: 34rem;
+    height: 35rem;
     padding: 0;
     .row {
-        height: 34rem;
+        height: 35rem;
     }
 }
 .left-panel {
@@ -112,6 +112,10 @@
     &:not([disabled]):hover, &:not([disabled]):focus {
         filter: brightness(1.2);
     }
+}
+
+#create-room-btn {
+    margin-bottom: 1rem;
 }
 
 #exit-room-btn {
