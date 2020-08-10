@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageInput = document.getElementById('messageInput');
     const messageSendBtn = document.getElementById('message-send-btn');
     const charCount = document.getElementById('current-character-count');
+    const spamPrevention = document.getElementById('spam-prevention');
 
     const urlParams = new URLSearchParams(window.location.search);
     const roomName = urlParams.get('room');
@@ -178,7 +179,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         if (sendCooldown > 0) {
-            console.log("You can send message in " + sendCooldown + " seconds");
+            spamPrevention.innerText = `You have to wait ${sendCooldown} seconds for next message.`;
+            spamPrevention.classList.remove('hide');
+            setTimeout(() => {
+                spamPrevention.classList.add('hide');
+            }, 1000);
             return;
         }
         // sent message to server

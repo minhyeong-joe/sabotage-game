@@ -84,7 +84,21 @@
 
 #message-form {
     display: flex;
+    position: relative;
 }
+
+#spam-prevention {
+    position: absolute;
+    transform: translate(-50%, -110%);
+    left: 50%;
+    opacity: 1;
+    transition: opacity 0.15s ease-in-out;
+    &.hide {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
 #messageInput {
     outline: none;
     flex-grow: 1;
