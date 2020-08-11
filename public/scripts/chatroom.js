@@ -40,6 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let sabotageInterval
     let sabotageTimeout;
 
+    // game sounds
+    const startSound = new Audio('../assets/start.wav');
+    const timerSound = new Audio('../assets/clock.wav');
+    const gunshotSound = new Audio('../assets/gunshot.wav');
+    const spyWinSound = new Audio('../assets/spy_wins.wav');
+    const agentWinSound = new Audio('../assets/agents_win.wav');
+
     if (!username || challenge != sessionStorage.getItem('token')) {
         // TODO: make error feedback look better
         alert("Invalid access!");
@@ -79,6 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // listens for game start
         socket.on('gameStart', game => {
+            spyWinSound.pause();
+            agentWinSound.pause();
+            startSound.currentTime = 0;
+            startSound.play();
             chatWindow.innerHTML = "";
             renderChatMessage(socket.id, {id: null, username: "ChatBot", message: "The Game has started!", time: new Date().toLocaleTimeString()});
             document.querySelector('.game-start-container').classList.add("d-none");
@@ -119,6 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 keyboard: false
             });
             // start vote timer
+            timerSound.currentTime = 0;
+            timerSound.play();
             voteTime = VOTE_TIME_LIMIT;
             voteTimer.innerText = voteTime;
             voteInterval = setInterval(() => {
@@ -135,6 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // listens for the vote done
         socket.on('voteDone', deadId => {
+            timerSound.pause();
+            gunshotSound.currentTime = 0;
+            gunshotSound.play();
 
             if (deadId == socket.id) {
                 isAlive = false;
@@ -160,6 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     keyboard: false
                 });
                 // start the sabotage timer
+                timerSound.currentTime = 0;
+                timerSound.play();
                 sabotageTime = SABOTAGE_TIME_LIMIT;
                 sabotageTimer.innerText = sabotageTime;
                 sabotageInterval = setInterval(() => {
@@ -177,7 +195,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // listens for game end
-        socket.on('endGame', () => {
+        socket.on('endGame', winner => {
+            timerSound.pause();
             // un-initialize the game and disable game buttons
             document.querySelector('.game-start-container').classList.remove("d-none");
             document.querySelector('.list-of-words-toggle').classList.add('d-none');
@@ -189,6 +208,13 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.dead-view').classList.add('d-none');
             isSpy = false;
             isAlive = false;
+            if (winner == 'agents') {
+                agentWinSound.currentTime = 0;
+                agentWinSound.play();
+            } else {
+                spyWinSound.currentTime = 0;
+                spyWinSound.play();
+            }
         });
 
         // listens for a message

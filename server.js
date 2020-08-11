@@ -120,7 +120,7 @@ io.on('connection', socket => {
                         // spy dies
                         // tell client game is over
                         io.to(user.room).emit('message', message(null, bot, `Agents Won!\n${spy.username} was the spy`));
-                        io.to(user.room).emit('endGame');
+                        io.to(user.room).emit('endGame', 'agents');
                         // reset in-server game stat
                         endGame(user.room);
                         return;
@@ -136,7 +136,7 @@ io.on('connection', socket => {
                         endGame(user.room);
                         // tell client game is over
                         io.to(user.room).emit('message', message(null, bot, `Spy Won!\n${spy.username} is the spy`));
-                        io.to(user.room).emit('endGame');
+                        io.to(user.room).emit('endGame', 'spy');
                     }
                 }
                 resetVotes(user.room);
@@ -156,11 +156,12 @@ io.on('connection', socket => {
             if (guess == getAnswer(user.room)) {
                 io.to(user.room).emit('message', message(null, bot, `Spy has correctly sabotaged the secret word: ${guess}`));
                 io.to(user.room).emit('message', message(null, bot, `Spy Won!\n${getSpy(user.room).username} was the spy`));
+                io.to(user.room).emit('endGame', 'spy');
             } else {
                 io.to(user.room).emit('message', message(null, bot, `Agents Won!\nThe secret key was ${getAnswer(user.room)}`));
+                io.to(user.room).emit('endGame', 'agents');
             }
             endGame(user.room);
-            io.to(user.room).emit('endGame');
         });
 
     });
@@ -193,7 +194,7 @@ io.on('connection', socket => {
                     endGame(user.room);
                     // tell client game is over
                     io.to(user.room).emit('message', message(null, bot, `Agents Won!\n${spy.username} is the spy`));
-                    io.to(user.room).emit('endGame');
+                    io.to(user.room).emit('endGame', 'agents');
                     return;
                 }
                 // if 1v1, spy wins
@@ -202,7 +203,7 @@ io.on('connection', socket => {
                     endGame(user.room);
                     // tell client game is over
                     io.to(user.room).emit('message', message(null, bot, `Spy Won!\n${spy.username} is the spy`));
-                    io.to(user.room).emit('endGame');
+                    io.to(user.room).emit('endGame', 'spy');
                     return;
                 }
             }
