@@ -65,12 +65,7 @@
 }
 
 .my-message {
-    // background-color: $teal;
     margin-left: auto;
-}
-
-.other-message {
-    // background-color: $primary;
 }
 
 .system-message {
@@ -132,18 +127,11 @@
     margin-bottom: 1rem;
 }
 
-#exit-room-btn {
-    @extend #create-room-btn;
-    background-color: firebrick;
-    display: block;
-    text-align: center;
-}
-
 @media screen and (max-width: 768px) {
     .card-body {
-        height: 70.5rem;
+        height: 69.5rem;
         .row {
-            height: 70.5rem;
+            height: 69.5rem;
         }
     }
 }

@@ -12,6 +12,13 @@
     width: 10rem;
 }
 
+#exit-room-btn {
+    @extend #create-room-btn;
+    background-color: firebrick;
+    display: block;
+    text-align: center;
+}
+
 #list-of-words {
     max-height: 20rem;
     overflow-y: auto;
@@ -33,5 +40,14 @@
     white-space: nowrap;
     #vote-timer, #sabotage-timer {
         margin-left: 8px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .card-body {
+        height: 72.5rem;
+        .row {
+            height: 72.5rem;
+        }
     }
 }
