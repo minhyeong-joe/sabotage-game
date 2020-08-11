@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // on submit, check if user exists, then redirect to public area
     usernameForm.addEventListener('submit', e => {
         e.preventDefault();
-        const username = e.target.elements['username-input'].value;
+        let username = e.target.elements['username-input'].value;
         const socket = io();
         socket.on('connect', () => {
             // check if username exists
@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     // redirect user to public with username
                     const color = document.querySelector('.selected').style.backgroundColor;
+                    username = username.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
                     sessionStorage.setItem('username', username);
                     sessionStorage.setItem('token', hash.hex(username));
                     sessionStorage.setItem('color', color)
