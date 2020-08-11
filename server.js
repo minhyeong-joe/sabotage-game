@@ -46,6 +46,7 @@ io.on('connection', socket => {
     socket.on('joinRoom', ({ username, room, color }) => {
         // if room does not exist
         if (!getAllRooms().find(r => r.name == room)) {
+            console.log("Room does not exist");
             socket.emit('roomExists', false);
         }
         const user = userJoin(socket.id, username, room, color);
@@ -183,7 +184,7 @@ io.on('connection', socket => {
         }
         if (user && user.room != 'Public Area') {
             const room = getAllRooms().find(room => room.name == user.room);
-            if (room.isPlaying) {
+            if (room && room.isPlaying) {
                 const spy = getSpy(user.room);
                 killSurvivor(user.room, user.id);
                 // if user left is the spy
