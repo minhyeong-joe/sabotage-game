@@ -28,3 +28,10 @@
         vertical-align: top;
     }
 }
+
+.timer {
+    white-space: nowrap;
+    #vote-timer, #sabotage-timer {
+        margin-left: 8px;
+    }
+}

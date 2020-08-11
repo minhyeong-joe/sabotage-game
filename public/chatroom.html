@@ -47,7 +47,7 @@
                 <a class="btn btn-secondary list-of-words-toggle d-none" data-toggle="collapse" href="#list-of-words" role="button" aria-expanded="false" aria-controls="collapseExample">
                     List of Codes
                 </a>
-                <div class="collapse" id="list-of-words">
+                <div class="collapse custom-scroll" id="list-of-words">
                     <ul class="list-group">
                     </ul>
                 </div>
@@ -124,8 +124,13 @@
     <div class="modal" tabindex="-1" role="dialog" id="vote-modal">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
+            <div class="modal-header">
+                <h5>Vote on the suspicious person, or you may choose to skip vote.</h5>
+                <div class="timer ml-4">
+                    <i class="fas fa-stopwatch"></i><span id="vote-timer">10</span>
+                </div>
+            </div>
             <div class="modal-body">
-              <p>Vote on the suspicious person, or you may choose to skip vote.</p>
               <select name="vote-select" id="vote-select" class="form-control">
               </select>
             </div>
@@ -140,8 +145,13 @@
       <div class="modal" tabindex="-1" role="dialog" id="sabotage-modal">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
+            <div class="modal-header">
+                <h5>Choose the secret code to sabotage the mission</h5>
+                <div class="timer ml-4">
+                    <i class="fas fa-stopwatch"></i><span id="sabotage-timer">10</span>
+                </div>
+            </div>
             <div class="modal-body">
-              <p>Choose the secret code to sabotage the mission</p>
               <select name="sabotage-select" id="sabotage-select" class="form-control">
               </select>
             </div>

@@ -46,7 +46,6 @@ io.on('connection', socket => {
     socket.on('joinRoom', ({ username, room, color }) => {
         // if room does not exist
         if (!getAllRooms().find(r => r.name == room)) {
-            console.log("Room does not exist");
             socket.emit('roomExists', false);
         }
         const user = userJoin(socket.id, username, room, color);
@@ -69,7 +68,7 @@ io.on('connection', socket => {
         // listens for topic change
         socket.on('topicChange', topic => {
             socket.broadcast.to(user.room).emit('topicChange', topic);
-            io.to(user.room).emit('message', message(null, bot, `Topic has been changed to "${topic}"`));
+            io.to(user.room).emit('message', message(null, bot, `Topic has been changed to "${topic.charAt(0).toUpperCase()+topic.substr(1).toLowerCase()}"`));
         });
 
         // listens for game start

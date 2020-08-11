@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageSendBtn = document.getElementById('message-send-btn');
     const charCount = document.getElementById('current-character-count');
     const spamPrevention = document.getElementById('spam-prevention');
+    const voteTimer = document.getElementById('vote-timer');
+    const sabotageTimer = document.getElementById('sabotage-timer');
 
     const urlParams = new URLSearchParams(window.location.search);
     const roomName = urlParams.get('room');
@@ -25,10 +27,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let cdInterval;
 
     // game stats
+    const VOTE_TIME_LIMIT = 10;
+    const SABOTAGE_TIME_LIMIT = 20;
     let isHost = false;
     let isSpy = false;
     let isAlive = false;
     let numUsers;
+    let voteTime = 0;
+    let sabotageTime = 0;
+    let voteInterval;
+    let voteTimeout;
+    let sabotageInterval
+    let sabotageTimeout;
 
     if (!username || challenge != sessionStorage.getItem('token')) {
         // TODO: make error feedback look better
@@ -108,6 +118,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 backdrop: 'static',
                 keyboard: false
             });
+            // start vote timer
+            voteTime = VOTE_TIME_LIMIT;
+            voteTimer.innerText = voteTime;
+            voteInterval = setInterval(() => {
+                voteTime--;
+                voteTimer.innerText = voteTime;
+            }, 1000);
+            voteTimeout = setTimeout(() => {
+                clearInterval(voteInterval);
+                // if time exceeds, skip vote by default
+                socket.emit('vote', 'skip');
+                $('#vote-modal').modal('hide');
+            }, VOTE_TIME_LIMIT*1000);
         });
 
         // listens for the vote done
@@ -136,6 +159,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     backdrop: 'static',
                     keyboard: false
                 });
+                // start the sabotage timer
+                sabotageTime = SABOTAGE_TIME_LIMIT;
+                sabotageTimer.innerText = sabotageTime;
+                sabotageInterval = setInterval(() => {
+                    sabotageTime--;
+                    sabotageTimer.innerText = sabotageTime;
+                }, 1000);
+                sabotageTimeout = setTimeout(() => {
+                    clearInterval(sabotageInterval);
+                    // if time exceeds, sabotage with whatever word is currently selected
+                    const guess = document.getElementById('sabotage-select').value;
+                    socket.emit('guess', guess);
+                    $('#sabotage-modal').modal('hide');
+                }, SABOTAGE_TIME_LIMIT*1000);
             }
         });
 
@@ -248,6 +285,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // vote btn
     voteBtn.addEventListener('click', () => {
+        clearTimeout(voteTimeout);
+        clearInterval(voteInterval);
+        voteTime = 0;
         if (!isAlive) {
             return;
         }
@@ -270,6 +310,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // confirm sabotage btn
     challengeBtn.addEventListener('click', () => {
         if (isSpy) {
+            clearTimeout(sabotageTimeout);
+            clearInterval(sabotageInterval);
+            sabotageTime = 0;
             const guess = document.getElementById('sabotage-select').value;
             socket.emit('guess', guess);
             $('#sabotage-modal').modal('hide');
