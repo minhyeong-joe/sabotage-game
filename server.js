@@ -69,6 +69,7 @@ io.on('connection', socket => {
         // listens for topic change
         socket.on('topicChange', topic => {
             socket.broadcast.to(user.room).emit('topicChange', topic);
+            io.to(user.room).emit('message', message(null, bot, `Topic has been changed to "${topic}"`));
         });
 
         // listens for game start
