@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isHost = false;
     let isSpy = false;
     let isAlive = false;
+    let numUsers;
 
     if (!username || challenge != sessionStorage.getItem('token')) {
         // TODO: make error feedback look better
@@ -55,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.on('roomUsers', ({room, users}) => {
             renderRoomName(room);
             renderUserList(users);
+            numUsers = users.length;
             if (users[0].id == socket.id) {
                 isHost = true;
             }
@@ -223,6 +225,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // start game
     startGameBtn.addEventListener('click', () => {
         if (!isHost) {
+            return;
+        }
+        if (numUsers < 3) {
+            $('.not-enough').slideDown();
+            setTimeout(() => {
+               $('.not-enough').slideUp(); 
+            }, 1500);
             return;
         }
         socket.emit('gameStart', topicSelect.value);
