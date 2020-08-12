@@ -51,10 +51,10 @@
     display: block;
     padding: 0.5rem 1.2rem;
     border-radius: 2.8rem;
-    margin-bottom: 0.7rem;
+    margin-bottom: 0.2rem;
     width: 80%;
     position: relative;
-    line-height: 1rem;
+    line-height: 1.2rem;
     .username {
         // font-family: $permanent-marker;
         font-weight: 900;
@@ -66,10 +66,7 @@
         font-size: 1.2rem;
     }
     .timestamp {
-        position: absolute;
-        top: 0;
-        right: 1rem;
-        transform: translateY(50%);
+        text-align: right;
     }
 }
 
@@ -84,7 +81,6 @@
         text-align: center;
     }
 }
-
 
 #message-form {
     display: flex;
@@ -137,11 +133,20 @@
     margin-bottom: 1rem;
 }
 
-@media screen and (max-width: 768px) {
-    .card-body {
-        // height: 69.5rem;
-        .row {
-            // height: 69.5rem;
-        }
+#game-rule-modal {
+    h1 {
+        font-size: 3.2rem;
+    }
+    h2 {
+        font-size: 2.4rem;
+    }
+    p {
+        font-size: 1.5rem;
+    }
+    li {
+        font-size: 1.4rem;
+    }
+    img {
+        max-height: 10rem;
     }
 }

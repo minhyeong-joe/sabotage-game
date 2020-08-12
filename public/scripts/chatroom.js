@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const spamPrevention = document.getElementById('spam-prevention');
     const voteTimer = document.getElementById('vote-timer');
     const sabotageTimer = document.getElementById('sabotage-timer');
+    const volumeControl = document.getElementById('volume');
 
     const urlParams = new URLSearchParams(window.location.search);
     const roomName = urlParams.get('room');
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let sabotageTimeout;
 
     // game sounds
+    let volume = 1;
     const startSound = new Audio('../assets/start.wav');
     const timerSound = new Audio('../assets/clock.wav');
     const gunshotSound = new Audio('../assets/gunshot.wav');
@@ -89,9 +91,11 @@ document.addEventListener('DOMContentLoaded', () => {
             spyWinSound.pause();
             agentWinSound.pause();
             startSound.currentTime = 0;
+            startSound.volume = volume;
             startSound.play();
             chatWindow.innerHTML = "";
             renderChatMessage(socket.id, {id: null, username: "ChatBot", message: "The Game has started!", time: new Date().toLocaleTimeString()});
+            $('#game-rule-modal').modal('hide');
             document.querySelector('.game-start-container').classList.add("d-none");
             document.querySelector('.list-of-words-toggle').classList.remove('d-none');
             document.getElementById('ready-to-vote-btn').removeAttribute('disabled');
@@ -125,12 +129,14 @@ document.addEventListener('DOMContentLoaded', () => {
             voteSelect.innerHTML += `
                 ${survived.map(surv => `<option value="${surv.id}">${surv.username}</option>`).join('')}
             `;
+            $('#game-rule-modal').modal('hide');
             $('#vote-modal').modal({
                 backdrop: 'static',
                 keyboard: false
             });
             // start vote timer
             timerSound.currentTime = 0;
+            timerSound.volume = volume;
             timerSound.play();
             voteTime = VOTE_TIME_LIMIT;
             voteTimer.innerText = voteTime;
@@ -151,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
             timerSound.pause();
             if (deadId) {
                 gunshotSound.currentTime = 0;
+                gunshotSound.volume = volume;
                 gunshotSound.play();
             }
 
@@ -173,12 +180,14 @@ document.addEventListener('DOMContentLoaded', () => {
             readyToVoteBtn.setAttribute('disabled', true);
             sabotageBtn.setAttribute('disabled', true);
             if (isSpy) {
+                $('#game-rule-modal').modal('hide');
                 $('#sabotage-modal').modal({
                     backdrop: 'static',
                     keyboard: false
                 });
                 // start the sabotage timer
                 timerSound.currentTime = 0;
+                timerSound.volume = volume;
                 timerSound.play();
                 sabotageTime = SABOTAGE_TIME_LIMIT;
                 sabotageTimer.innerText = sabotageTime;
@@ -212,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.dead-view').classList.add('d-none');
             $('#vote-modal').modal('hide');
             $('#sabotage-modal').modal('hide');
+            $('#game-rule-modal').modal('hide');
             clearInterval(voteInterval);
             clearInterval(sabotageInterval);
             clearTimeout(voteTimeout);
@@ -223,9 +233,11 @@ document.addEventListener('DOMContentLoaded', () => {
             isAlive = false;
             if (winner == 'agents') {
                 agentWinSound.currentTime = 0;
+                agentWinSound.volume = volume;
                 agentWinSound.play();
             } else {
                 spyWinSound.currentTime = 0;
+                spyWinSound.volume = volume;
                 spyWinSound.play();
             }
         });
@@ -362,6 +374,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // autogrow textarea
     autosize(document.querySelector('textarea'));
+
+    // volume controller
+    volumeControl.addEventListener('change', e => {
+        volume = e.target.value;
+    });
 
     // generate chat messages
     const renderChatMessage = (sessionId, data) => {
