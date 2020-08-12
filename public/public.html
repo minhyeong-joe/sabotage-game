@@ -25,7 +25,7 @@
                     <div class="card-body">
                         <div class="row no-gutters">
                             <!-- left panel -->
-                            <div class="col-12 col-md-3 order-1 order-md-0">
+                            <div class="col-12 col-md-3 order-1 order-md-0 d-flex flex-column">
                                 <!-- rooms and users container -->
                                 <div class="left-panel custom-scroll">
                                     <div class="rooms">
@@ -42,7 +42,7 @@
                                 </div>
                                 <!-- end of rooms and users container -->
                                 <!-- create new room button area -->
-                                <div class="card-footer h-100">
+                                <div class="card-footer flex-grow-1">
                                     <button type="button" id="create-room-btn">Create Room</button>
                                 </div>
                                 <!-- end of create new room button area -->
@@ -58,7 +58,7 @@
                                 <!-- message input area -->
                                 <div class="card-footer">
                                     <form action="#" id="message-form">
-                                        <textarea type="text" id="messageInput" autocomplete="off" maxlength="100" rows="1"></textarea>
+                                        <textarea id="messageInput" autocomplete="off" maxlength="100" rows="1"></textarea>
                                         <button type="submit" id="message-send-btn" disabled>SEND</button>
                                         <div class="alert alert-danger hide" id="spam-prevention">
                                         </div>

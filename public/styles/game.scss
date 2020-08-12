@@ -43,11 +43,16 @@
     }
 }
 
+.game-buttons {
+    position: absolute;
+    width: 100%;
+}
+
 @media screen and (max-width: 768px) {
     .card-body {
-        height: 72.5rem;
+        // height: 72.5rem;
         .row {
-            height: 72.5rem;
+            // height: 72.5rem;
         }
     }
 }

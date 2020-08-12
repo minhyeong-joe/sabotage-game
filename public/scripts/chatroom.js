@@ -239,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // sending message
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        messageInput.style.height = "2.3125rem";
         const msg = e.target.elements.messageInput.value;
         if (msg == "") {
             return;
@@ -266,6 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2000);
     });
 
+    // character count and enable send button when there's input
     messageInput.addEventListener('input', e => {
         if (e.target.value == "") {
             messageSendBtn.setAttribute('disabled', true);
@@ -273,6 +275,16 @@ document.addEventListener('DOMContentLoaded', () => {
             messageSendBtn.removeAttribute('disabled');
         }
         charCount.innerText = e.target.value.length;
+    });
+
+    // press enter to submit form (instead of new line in textarea)
+    messageInput.addEventListener('keypress', e => {
+        // press enter sends message
+        if (e.which == 13) {
+            e.preventDefault();
+            messageSendBtn.click();
+            messageInput.style.height = "2.3125rem";
+        }
     });
 
     // send selected topic to everyone to see
@@ -345,6 +357,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // autogrow textarea
+    autosize(document.querySelector('textarea'));
 
     // generate chat messages
     const renderChatMessage = (sessionId, data) => {

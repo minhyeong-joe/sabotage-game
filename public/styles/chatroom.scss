@@ -29,6 +29,9 @@
     overflow-y: scroll;
     height: 38rem;
     padding: 0.5rem;
+    &.no-scroll {
+        overflow-y: hidden;
+    }
 }
 
 .custom-scroll::-webkit-scrollbar {
