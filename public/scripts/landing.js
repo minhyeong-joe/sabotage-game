@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // on landing page, clear stored username if exists
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('color');
 
     const usernameForm = document.getElementById('username-form');
     const usernameInput = document.getElementById('username-input');
@@ -18,11 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
             socket.emit('checkUserExists', username);
             socket.on('userExists', userExists => {
                 if (userExists) {
-                    validateForm(false)
+                    validateForm("Username already exists");
                 } else {
                     // redirect user to public with username
                     const color = document.querySelector('.selected').style.backgroundColor;
                     username = username.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
+                    if (username.length > 10) {
+                        validateForm("Username too long (has to be less than 10 characters)");
+                        return;
+                    }
                     sessionStorage.setItem('username', username);
                     sessionStorage.setItem('token', hash.hex(username));
                     sessionStorage.setItem('color', color)
@@ -34,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // on input change, remove invalid properties
     usernameInput.addEventListener('input', e => {
-        validateForm(true);
+        validateForm();
     });
 
     // on color select
@@ -44,16 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // helper to add/remove invalid properties
-    const validateForm = valid => {
+    const validateForm = err => {
         const joinBtn = document.getElementById('join-btn');
         const errorFeedback = document.getElementById('error-feedback');
-        if (valid) {
+        if (err == null) {
             usernameInput.classList.remove('invalid');
             joinBtn.classList.remove('invalid');
             errorFeedback.classList.remove('show');
         } else {
             usernameInput.classList.add('invalid');
             joinBtn.classList.add('invalid');
+            errorFeedback.innerHTML = err;
             errorFeedback.classList.add('show');
         }
     };
