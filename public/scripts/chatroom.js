@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // check if room is valid
         socket.on('roomExists', roomExists => {
             if (!roomExists) {  
-                window.location.replace('/public.html');
+                window.location.replace('/public');
                 return;
             }
         });

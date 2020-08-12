@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // listens for my room successfully created
         socket.on('roomCreated', newRoom => {
             $('#create-room-modal').modal('hide');
-            window.location.href = `/chatroom.html?room=${newRoom.name}`;
+            window.location.href = `/chatroom?room=${newRoom.name}`;
         });
 
         // listens for a message
@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // sending message
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        messageInput.style.height = "2.3125rem";
         const msg = e.target.elements.messageInput.value;
         if (msg == "") {
             return;
@@ -110,8 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             messageSendBtn.removeAttribute('disabled');
         }
+        // e.target.value = e.target.value.substr(0,100);
         charCount.innerText = e.target.value.length;
     });
+
+    messageInput.addEventListener('keypress', e => {
+        // press enter sends message
+        if (e.which == 13) {
+            e.preventDefault();
+            messageSendBtn.click();
+            messageInput.style.height = "2.3125rem";
+        }
+    })
 
     // create room modal
     createRoomBtn.addEventListener('click', e => {
@@ -124,8 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const roomName = e.target.elements['room-name-input'].value;
         const password = e.target.elements['password-input'].value;
-        console.log(roomName);
-        console.log(password);
         // send create room request to server (server will check if room name already in use)
         socket.emit('createRoom', {roomName, password});
     });
@@ -135,6 +144,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('error-feedback').classList.add('d-none');
         document.getElementById('create-btn').removeAttribute('disabled');
     });
+
+    // autogrow textarea
+    autosize(document.querySelector('textarea'));
 
     // generate chat messages
     const renderChatMessage = (sessionId, data) => {
@@ -180,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // add existing rooms to room list
     const renderRooms = rooms => {
         document.getElementById('room-list').innerHTML = `
-            ${rooms.filter(room => !room.isPlaying).map(room => `<a href="/chatroom.html?room=${room.name}"><li>${room.name}</li></a>`).join('')}
+            ${rooms.filter(room => !room.isPlaying).map(room => `<a href="/chatroom?room=${room.name}"><li>${room.name}</li></a>`).join('')}
         `;
     }
 

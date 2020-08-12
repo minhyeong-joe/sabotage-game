@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     sessionStorage.setItem('username', username);
                     sessionStorage.setItem('token', hash.hex(username));
                     sessionStorage.setItem('color', color)
-                    window.location.href = '/public.html';
+                    window.location.href = '/public';
                 }
             })
         });

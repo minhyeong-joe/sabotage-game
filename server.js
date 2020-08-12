@@ -13,7 +13,7 @@ const { getAllWords, getRandomWord, getRandomSpy } = require('./models/game');
 
 const PORT = process.env.PORT || 80;
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {extensions:['html']}));
 
 const bot = "ChatBot";
 // Socket io
