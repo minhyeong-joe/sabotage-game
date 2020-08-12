@@ -394,7 +394,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 ${data.username}
                             </div>`;
         } else {
-            div.classList.add('other-message');
             div.style.backgroundColor = data.color;
             div.innerHTML += `<div class="username">
                                 ${data.username}
