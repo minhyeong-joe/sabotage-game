@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const username = sessionStorage.getItem('username');
     const color = sessionStorage.getItem('color');
+    const font = sessionStorage.getItem('font');
+
+    messageInput.style.fontFamily = font;
     
     const challenge = hash.hex(username);
 
@@ -167,19 +170,19 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (data.userId == sessionId) {
             div.classList.add('my-message');
             div.style.backgroundColor = data.color;
-            div.innerHTML += `<div class="username">
+            div.innerHTML += `<div class="username" style="font-family: ${font}">
                                 ${data.username}
                             </div>`;
         } else {
             div.style.backgroundColor = data.color;
-            div.innerHTML += `<div class="username">
+            div.innerHTML += `<div class="username" style="font-family: ${font}">
                                 ${data.username}
                             </div>`;
         }
-        div.innerHTML += `<div class="content">
+        div.innerHTML += `<div class="content" style="font-family: ${font}">
                             ${data.message}
                         </div>
-                        <div class="timestamp">
+                        <div class="timestamp" style="font-family: ${font}">
                             ${data.time}
                         </div>`;
         chatWindow.append(div);

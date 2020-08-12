@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sabotage Game</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Permanent+Marker&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Permanent+Marker&family=Roboto:wght@400;500;700;900&family=Nanum+Gothic:wght@400;700&family=Hi+Melody&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/landing.css">
@@ -31,6 +31,17 @@
             <div class="color col-3" style="background-color: #A4D4B4"></div>
             <div class="color col-3" style="background-color: #CDD1DE"></div>
             <div class="color col-3" style="background-color: #eeeeee"></div>
+        </div>
+        <div class="row mb-2">
+            <h3>Select chat message font:</h3>
+            <select class="row custom-select" id="font-picker">
+                <option value="Nanum Pen Script, cursive" style="font-family: 'Nanum Pen Script', cursive;">Nanum Pen Script</option>
+                <option value="Nanum Gothic, sans-serif" style="font-family: 'Nanum Gothic', sans-serif;">Nanum Gothic</option>
+                <option value="Roboto, sans-serif" style="font-family: 'Roboto', sans-serif;">Roboto</option>
+                <option value="Hi Melody, cursive" style="font-family: 'Hi Melody', cursive;">Hi Melody</option>
+                <option value="Times New Roman, sans-serif" style="font-family: 'Times New Roman', sans-serif;">Times New Roman</option>
+                <option value="Simson, sans-serif" style="font-family: 'Simson', sans-serif;">Simson</option>
+            </select>
         </div>
         <form action="public.html" id="username-form">
             <input type="text" placeholder="USERNAME" id="username-input" name="username" maxlength="10">

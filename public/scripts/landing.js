@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('color');
+    sessionStorage.removeItem('font');
 
     const usernameForm = document.getElementById('username-form');
     const usernameInput = document.getElementById('username-input');
@@ -23,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     // redirect user to public with username
                     const color = document.querySelector('.selected').style.backgroundColor;
+                    const font = document.getElementById('font-picker').value;
+                    console.log(font);
                     username = username.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
                     if (username.length > 10 || username.length <= 0) {
                         validateForm("Username has to be between 1 and 10 characters");
@@ -30,7 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     sessionStorage.setItem('username', username);
                     sessionStorage.setItem('token', hash.hex(username));
-                    sessionStorage.setItem('color', color)
+                    sessionStorage.setItem('color', color);
+                    sessionStorage.setItem('font', font);
+                    
                     window.location.href = '/public';
                 }
             })
@@ -46,6 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
     $('.color').on('click', e => {
         $('.selected').removeClass('selected');
         e.target.classList.add('selected');
+    });
+
+    // on font select, change select's font
+    document.getElementById('font-picker').addEventListener('change', e => {
+        document.getElementById('font-picker').style.fontFamily = e.target.value;
     });
     
     // helper to add/remove invalid properties
