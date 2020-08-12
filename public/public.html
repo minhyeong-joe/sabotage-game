@@ -13,6 +13,9 @@
 </head>
 <body>
     <div class="container-fluid main-container py-5">
+        <div class="text-center mb-2">
+            <a href="/" class="btn btn-danger">Back to Landing Page</a>
+        </div>
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
                 <!-- chat container -->
@@ -39,7 +42,7 @@
                                 </div>
                                 <!-- end of rooms and users container -->
                                 <!-- create new room button area -->
-                                <div class="card-footer">
+                                <div class="card-footer h-100">
                                     <button type="button" id="create-room-btn">Create Room</button>
                                 </div>
                                 <!-- end of create new room button area -->
@@ -60,8 +63,13 @@
                                         <div class="alert alert-danger hide" id="spam-prevention">
                                         </div>
                                     </form>
+                                    
                                     <div class="text-center">
                                         <span id="current-character-count">0</span>/100 characters
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="autoscroll-switch" checked>
+                                            <label class="custom-control-label" for="autoscroll-switch">Auto-scroll</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- end of message input area -->
@@ -112,11 +120,17 @@
       <div class="modal" tabindex="-1" role="dialog" id="create-room-modal">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
+            <div class="modal-header">
+                <h5>CREATE ROOM</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div class="modal-body">
               <form action="#" id="create-room-form">
                   <div class="form-group">
                       <label for="room-name-input">Name: </label>
-                      <input type="text" name="room-name" id="room-name-input" class="form-control">
+                      <input type="text" name="room-name" id="room-name-input" class="form-control" maxlength="10">
                   </div>
                   <div class="form-group">
                     <label for="password-input">Password: </label>

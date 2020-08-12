@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageSendBtn = document.getElementById('message-send-btn');
     const charCount = document.getElementById('current-character-count');
     const spamPrevention = document.getElementById('spam-prevention');
+    const autoscrollSwitch = document.getElementById('autoscroll-switch');
 
     const username = sessionStorage.getItem('username');
     const color = sessionStorage.getItem('color');
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let sendCooldown = 0;
     let cdInterval;
+    let isAutoscroll = true;
 
     if (!username || challenge != sessionStorage.getItem('token')) {
         // TODO: make error feedback look better
@@ -57,18 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // listens for a message
         socket.on('message', data => {
-            // if at the bottom, then automatically scroll to new message
-            // let autoScroll = false;
-            // if (chatWindow.scrollTop == chatWindow.scrollHeight-480) {
-            //     autoScroll = true;
-            // }
             renderChatMessage(sessionId, data);
-            // if (autoScroll) {
+            if (isAutoscroll) {
                 chatWindow.scrollTop = chatWindow.scrollHeight;
-            // } else {
+            } else {
                 // TODO: scroll to bottom button activation
                 // show something to indicate there's new message and allow user to click to scroll down
-            // }
+            }
         });
 
     });
@@ -105,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2000);
     });
 
+    // character count and enable send button when there's input
     messageInput.addEventListener('input', e => {
         if (e.target.value == "") {
             messageSendBtn.setAttribute('disabled', true);
@@ -115,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         charCount.innerText = e.target.value.length;
     });
 
+    // press enter to submit form (instead of new line in textarea)
     messageInput.addEventListener('keypress', e => {
         // press enter sends message
         if (e.which == 13) {
@@ -122,7 +121,15 @@ document.addEventListener('DOMContentLoaded', () => {
             messageSendBtn.click();
             messageInput.style.height = "2.3125rem";
         }
-    })
+    });
+
+    // turn on/off autoscroll
+    autoscrollSwitch.addEventListener('change', () => {
+        isAutoscroll = autoscrollSwitch.checked;
+        if (autoscrollSwitch.checked) {
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+    });
 
     // create room modal
     createRoomBtn.addEventListener('click', e => {
@@ -136,7 +143,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const roomName = e.target.elements['room-name-input'].value;
         const password = e.target.elements['password-input'].value;
         // send create room request to server (server will check if room name already in use)
-        socket.emit('createRoom', {roomName, password});
+        if (roomName != "" && roomName.length <= 10) {
+            socket.emit('createRoom', {roomName, password});
+        } 
     });
 
     // when room name modified
