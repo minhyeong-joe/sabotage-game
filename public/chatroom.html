@@ -80,8 +80,8 @@
                                 <!-- end of rooms and users container -->
                                 <!-- create new room button area -->
                                 <div class="card-footer flex-grow-1">
-                                    <a id="exit-room-btn" href="/public.html">Exit Room</a>
-                                    <label for="volume" class="mt-3">In-game volume:</label>
+                                    <a id="exit-room-btn" href="/public.html">Exit Room <i class="fas fa-sign-out-alt"></i></a>
+                                    <label for="volume" class="mt-3"><i class="fas fa-volume-up"></i> In-game volume:</label>
                                     <input type="range" class="custom-range" id="volume" min="0" max="1" step="0.05" value="1">
                                 </div>
                                 <!-- end of create new room button area -->
@@ -98,7 +98,7 @@
                                 <div class="card-footer flex-grow-1">
                                     <form action="#" id="message-form">
                                         <textarea id="messageInput" autocomplete="off" maxlength="100" rows="1"></textarea>
-                                        <button type="submit" id="message-send-btn" disabled>SEND</button>
+                                        <button type="submit" id="message-send-btn" disabled><i class="fas fa-share"></i> SEND</button>
                                         <div class="alert alert-danger hide" id="spam-prevention">
                                         </div>
                                     </form>
@@ -109,8 +109,8 @@
                                     <!-- In-game buttons -->
                                     <div class="game-buttons my-2 text-center d-block">
                                         <button class="btn btn-info mr-2 mr-md-5" data-toggle="modal" data-target="#game-rule-modal">Game Rule</button>
-                                        <button class="btn btn-danger" disabled id="sabotage-btn">Sabotage</button>
-                                        <button class="btn btn-primary"  id="ready-to-vote-btn" disabled>Ready to Vote</button>
+                                        <button class="btn btn-danger" disabled id="sabotage-btn"><i class="fas fa-user-secret"></i> Sabotage</button>
+                                        <button class="btn btn-primary"  id="ready-to-vote-btn" disabled><i class="fas fa-sticky-note"></i> Ready to Vote</button>
                                     </div>
                                 </div>
                                 <!-- end of right bottom -->

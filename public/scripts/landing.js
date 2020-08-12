@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     // redirect user to public with username
                     const color = document.querySelector('.selected').style.backgroundColor;
                     username = username.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
-                    if (username.length > 10) {
-                        validateForm("Username too long (has to be less than 10 characters)");
+                    if (username.length > 10 || username.length <= 0) {
+                        validateForm("Username has to be between 1 and 10 characters");
                         return;
                     }
                     sessionStorage.setItem('username', username);
