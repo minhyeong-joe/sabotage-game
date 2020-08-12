@@ -176,7 +176,7 @@ io.on('connection', socket => {
     socket.on('disconnect', () => {
         const user = userLeave(socket.id);
         if (user) {
-            io.to(user.room).emit('message', message(null, bot, `${user.username} has left the ${user.room}`));
+            io.to(user.room).emit('message', message(null, bot, `${user.username} has left the ${user.room}...`));
             // send current room name and users in the room
             io.to(user.room).emit('roomUsers', {
                 room: user.room,

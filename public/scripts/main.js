@@ -86,6 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 spamPrevention.classList.add('hide');
             }, 1000);
             return;
+        } else {
+            clearInterval(cdInterval);
+            sendCoolDown = 0;
         }
         // sent message to server
         socket.emit('chatMessage', msg);
@@ -97,9 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cdInterval = setInterval(() => {
             sendCooldown--;
         }, 1000);
-        setTimeout(() => {
-            clearInterval(cdInterval);
-        }, 2000);
     });
 
     // character count and enable send button when there's input

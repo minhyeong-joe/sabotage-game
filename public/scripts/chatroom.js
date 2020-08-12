@@ -149,8 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // listens for the vote done
         socket.on('voteDone', deadId => {
             timerSound.pause();
-            gunshotSound.currentTime = 0;
-            gunshotSound.play();
+            if (deadId) {
+                gunshotSound.currentTime = 0;
+                gunshotSound.play();
+            }
 
             if (deadId == socket.id) {
                 isAlive = false;
@@ -198,14 +200,25 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.on('endGame', winner => {
             timerSound.pause();
             // un-initialize the game and disable game buttons
+            // game end clean up
             document.querySelector('.game-start-container').classList.remove("d-none");
             document.querySelector('.list-of-words-toggle').classList.add('d-none');
+            $('#list-of-words').collapse('hide');
             document.getElementById('sabotage-btn').setAttribute('disabled',true);
             document.getElementById('ready-to-vote-btn').setAttribute('disabled', true);
             document.querySelector('.spy-view').classList.add('d-none');
             document.getElementById('answer-word').innerText = "";
             document.querySelector('.agent-view').classList.add('d-none');
             document.querySelector('.dead-view').classList.add('d-none');
+            $('#vote-modal').modal('hide');
+            $('#sabotage-modal').modal('hide');
+            clearInterval(voteInterval);
+            clearInterval(sabotageInterval);
+            clearTimeout(voteTimeout);
+            clearTimeout(sabotageTimeout);
+            timerSound.pause();
+            voteTime = 0;
+            sabotageTime = 0;
             isSpy = false;
             isAlive = false;
             if (winner == 'agents') {
@@ -219,18 +232,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // listens for a message
         socket.on('message', data => {
-            // if at the bottom, then automatically scroll to new message
-            // let autoScroll = false;
-            // if (chatWindow.scrollTop == chatWindow.scrollHeight-480) {
-            //     autoScroll = true;
-            // }
             renderChatMessage(socket.id, data);
-            // if (autoScroll) {
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-            // } else {
-                // TODO: scroll to bottom button activation
-                // show something to indicate there's new message and allow user to click to scroll down
-            // }
+            chatWindow.scrollTop = chatWindow.scrollHeight;
         });
 
 
@@ -251,6 +254,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 spamPrevention.classList.add('hide');
             }, 1000);
             return;
+        } else {
+            clearInterval(cdInterval);
+            sendCoolDown = 0;
         }
         // sent message to server
         socket.emit('chatMessage', msg);
@@ -262,9 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cdInterval = setInterval(() => {
             sendCooldown--;
         }, 1000);
-        setTimeout(() => {
-            clearInterval(cdInterval);
-        }, 2000);
     });
 
     // character count and enable send button when there's input
