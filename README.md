@@ -1,4 +1,4 @@
-# [Sabotage Game](sabotage-chat.herokuapp.com)
+# [Sabotage Game](https://sabotage-chat.herokuapp.com)
 
 Sabotage Game is a chat-based web game in which players try to find out a random spy among themselves.
 
