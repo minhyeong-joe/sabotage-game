@@ -33,6 +33,7 @@ Please note that this project is for hobby.
 - [x] Game sounds
 - [ ] Private Room
 - [ ] Display who has voted (and maybe to whom?)
-- [ ] Mobile-friendly UI/UX
+- [x] Mobile-friendly UI/UX
 - [ ] Show locale time instead of server time
-- [ ] Better UI for invalid access (instead of simple `alert()`)
+- [x] Better UI for invalid access (instead of simple `alert()`)
+    - Decided not to show any error message for invalid access (simply kick out to landing page seems enough)

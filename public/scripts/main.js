@@ -28,8 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const notification = new Audio("../assets/notification.wav");
 
     if (!username || challenge != sessionStorage.getItem('token')) {
-        // TODO: make error feedback look better
-        alert("Invalid access!");
         window.location.replace('/');
         return;
     }
