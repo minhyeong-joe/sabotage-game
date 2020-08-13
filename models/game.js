@@ -1,6 +1,10 @@
 const topics = {
-    "animal": ["Alligator", "Bear", "Camel", "Cat", "Cheetah", "Chicken", "Chimpanzee", "Cow", "Crocodile", "Deer", "Dog", "Dolphin", "Duck", "Eagle", "Elephant", "Fox", "Frog", "Giraffe", "Goat", "Hamster", "Hippopotamus", "Horse", "Kangaroo", "Lion", "Monkey", "Owl", "Panda", "Pig", "Rabbit", "Rat", "Scorpion", "Seal", "Shark", "Sheep", "Snake", "Squirrel", "Tiger", "Turtle", "Wolf", "Zebra"],
-    "place": ["Airport", "Aquarium", "Bakery", "Bank", "Bar", "Bookstore", "Bus Station", "Cafe", "Church", "Court", "Gym", "Hospital", "Hotel", "Library", "Mall", "Museum", "Pharmacy", "Restaurant", "School", "Supermarket", "Zoo"]
+    // animal 39
+    "animal": ["Bear", "Camel", "Cat", "Cheetah", "Chicken", "Chimpanzee", "Cow", "Crocodile", "Deer", "Dog", "Dolphin", "Duck", "Eagle", "Elephant", "Fox", "Frog", "Giraffe", "Goat", "Hamster", "Hippopotamus", "Horse", "Kangaroo", "Lion", "Monkey", "Owl", "Panda", "Pig", "Rabbit", "Rat", "Scorpion", "Seal", "Shark", "Sheep", "Snake", "Squirrel", "Tiger", "Turtle", "Wolf", "Zebra"],
+    // place 21
+    "place": ["Airport", "Aquarium", "Bakery", "Bank", "Bar", "Bookstore", "Bus Station", "Cafe", "Church", "Court", "Gym", "Hospital", "Hotel", "Library", "Mall", "Museum", "Pharmacy", "Restaurant", "School", "Supermarket", "Zoo"],
+    // food 23
+    "food": ["Bacon","Burrito","Cake","Candy","Cheese","Cookie","Curry","Eggs","Hamburger","Pie","Pizza","Ramen","Rice","Salad","Sandwich","Sausage","Soup","Spaghetti","Steak","Sushi","Taco","Tofu","Waffle"]
 };
 
 // get entire list under topic
