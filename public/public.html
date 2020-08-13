@@ -11,11 +11,12 @@
     <link rel="stylesheet" href="styles/chatroom.css">
     <link rel="stylesheet" href="styles/public.css">
 </head>
-<body>
-    <div class="container-fluid main-container py-5">
-        <div class="text-center mb-2">
-            <a href="/" class="btn btn-danger">Back to Landing Page</a>
-        </div>
+<body class="loading">
+    <div class="loading" id="loader">
+        <img src="assets/loader.gif" alt="loading..." width="100px">
+        <h4>Connecting...</h4>
+    </div>
+    <div class="container-fluid main-container py-2">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
                 <!-- chat container -->
@@ -44,19 +45,20 @@
                                 <!-- create new room button area -->
                                 <div class="card-footer flex-grow-1">
                                     <button type="button" id="create-room-btn"><i class="fas fa-plus"></i> Create Room</button>
+                                    <a href="/" class="btn btn-danger w-100 exit-btn">Exit <i class="fas fa-sign-out-alt"></i></a>
                                 </div>
                                 <!-- end of create new room button area -->
                             </div>
                             <!-- end of left panel -->
                             <!-- right panel of app -->
-                            <div class="col-12 col-md-9 order-0 order-md-1">
+                            <div class="col-12 col-md-9 order-0 order-md-1 d-flex flex-column">
                                 <!-- chat area -->
                                 <div class="chat-area custom-scroll">
                                     
                                 </div>
                                 <!-- end of chat area -->
                                 <!-- message input area -->
-                                <div class="card-footer">
+                                <div class="card-footer flex-grow-1">
                                     <form action="#" id="message-form">
                                         <textarea id="messageInput" autocomplete="off" maxlength="100" rows="1"></textarea>
                                         <button type="submit" id="message-send-btn" disabled><i class="fas fa-share"></i> SEND</button>
@@ -89,7 +91,7 @@
                 <p>The rest of the players will be playing as <span style="color: aquamarine;">Agents</span> and will be provided with a random <span style="color: forestgreen;">secret code word</span> under selected category.</p>
                 <p>The <span>Spy</span> does not know the secret code, but can see the list of words under the selected category.</p>
                 <p>During the game, ask questions and talk about the secret code discreetly to narrow down the Spy who does not know the secret code.</p>
-                <p>But do not be too direct, as the Spy may observe the conversation and sabotage the mission by guessing the correct secret key.</p>
+                <p>But do not be too obvious, as the Spy may observe the conversation and sabotage the mission by guessing the correct secret code.</p>
                 <img class="spy-img img-fluid float-left mr-5" src="assets/spy.svg" alt="">
                 <h2>As a <span style="color:firebrick;">Spy</span>:</h2>
                 <ul>
@@ -98,7 +100,7 @@
                     <li>If you figured out the secret code, click on Sabotage to attempt a guess. (This will reveal yourself, and you will lose if you have the wrong secret code)</li>
                 </ul>
 
-                <img class="agent-img img-fluid float-right ml-5" src="assets/agent.png" alt="">
+                <img class="agent-img img-fluid float-right ml-0 ml-md-5" src="assets/agent.png" alt="">
                 <h2 class="text-center">As an <span style="color: aquamarine;">Agent</span>:</h2>
                 <ul>
                     <li>Ask good questions to find out the Spy.</li>

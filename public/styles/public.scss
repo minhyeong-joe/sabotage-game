@@ -31,9 +31,16 @@
     transition: filter 0.2s ease-in-out;
     overflow-x:hidden;
     white-space: nowrap;
+    margin-bottom: 0.4rem;
     &:hover, &:focus {
         filter: brightness(1.2);
     }
+}
+
+.exit-btn {
+    font-size: 1.4rem;
+    padding: 0;
+    border-radius: 0;
 }
 
 .rule-container {

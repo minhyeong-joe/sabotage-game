@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const hash = new Hashes.SHA256;
+    const loader = document.getElementById('loader');
     const chatForm = document.getElementById('message-form');
     const chatWindow = document.querySelector('.chat-area');
     const topicSelect = document.getElementById('topic-select');
@@ -15,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const voteTimer = document.getElementById('vote-timer');
     const sabotageTimer = document.getElementById('sabotage-timer');
     const volumeControl = document.getElementById('volume');
+
+    const messageInputHeight = messageInput.style.height;
 
     const urlParams = new URLSearchParams(window.location.search);
     const roomName = urlParams.get('room');
@@ -46,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // game sounds
     let volume = 1;
+    const notification = new Audio("../assets/notification.wav");
     const startSound = new Audio('../assets/start.wav');
     const timerSound = new Audio('../assets/clock.wav');
     const gunshotSound = new Audio('../assets/gunshot.wav');
@@ -74,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // join specific room
         socket.emit('joinRoom', { username, room: roomName, color });
 
+        
         // listens for current room and users info
         socket.on('roomUsers', ({room, users}) => {
             renderRoomName(room);
@@ -83,6 +88,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 isHost = true;
             }
         });
+
+        // remove loader
+        $('body').removeClass('loading');
+        loader.classList.remove('loading');
 
         // listens for topic change
         socket.on('topicChange', topic => {
@@ -257,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // sending message
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        messageInput.style.height = "2.3125rem";
+        messageInput.style.height = messageInputHeight;
         const msg = e.target.elements.messageInput.value;
         if (msg == "") {
             return;
@@ -301,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.which == 13) {
             e.preventDefault();
             messageSendBtn.click();
-            messageInput.style.height = "2.3125rem";
+            messageInput.style.height = messageInputHeight;
         }
     });
 
@@ -396,11 +405,17 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML += `<div class="username" style="font-family: ${font}">
                                 ${data.username}
                             </div>`;
+            // play notification for my message
+            notification.currentTime = 0;   
+            notification.play();
         } else {
             div.style.backgroundColor = data.color;
             div.innerHTML += `<div class="username" style="font-family: ${font}">
                                 ${data.username}
                             </div>`;
+            // play notification for someone else's message
+            notification.currentTime = 0;   
+            notification.play();
         }
         div.innerHTML += `<div class="content" style="font-family: ${font}">
                             ${data.message}

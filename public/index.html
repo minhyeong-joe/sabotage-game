@@ -14,7 +14,7 @@
     <div class="landing-body main-container">
         <h1>Sabotage Game</h1>
         <h3>Select your chat bubble color:</h3>
-        <div class="color-picker row">
+        <div class="color-picker row no-gutters">
             <div class="color col-3 selected" style="background-color: #DE5151"></div>
             <div class="color col-3" style="background-color: #FB861A"></div>
             <div class="color col-3" style="background-color: #F4FF52"></div>
@@ -32,17 +32,15 @@
             <div class="color col-3" style="background-color: #CDD1DE"></div>
             <div class="color col-3" style="background-color: #eeeeee"></div>
         </div>
-        <div class="row mb-2">
-            <h3>Select chat message font:</h3>
-            <select class="row custom-select" id="font-picker">
-                <option value="Nanum Pen Script, cursive" style="font-family: 'Nanum Pen Script', cursive;">Nanum Pen Script</option>
-                <option value="Nanum Gothic, sans-serif" style="font-family: 'Nanum Gothic', sans-serif;">Nanum Gothic</option>
-                <option value="Roboto, sans-serif" style="font-family: 'Roboto', sans-serif;">Roboto</option>
-                <option value="Hi Melody, cursive" style="font-family: 'Hi Melody', cursive;">Hi Melody</option>
-                <option value="Times New Roman, sans-serif" style="font-family: 'Times New Roman', sans-serif;">Times New Roman</option>
-                <option value="Simson, sans-serif" style="font-family: 'Simson', sans-serif;">Simson</option>
-            </select>
-        </div>
+        <h3>Select chat message font:</h3>
+        <select class="row mb-2 custom-select" id="font-picker">
+            <option value="Nanum Pen Script, cursive" style="font-family: 'Nanum Pen Script', cursive;">Nanum Pen Script</option>
+            <option value="Nanum Gothic, sans-serif" style="font-family: 'Nanum Gothic', sans-serif;">Nanum Gothic</option>
+            <option value="Roboto, sans-serif" style="font-family: 'Roboto', sans-serif;">Roboto</option>
+            <option value="Hi Melody, cursive" style="font-family: 'Hi Melody', cursive;">Hi Melody</option>
+            <option value="Times New Roman, sans-serif" style="font-family: 'Times New Roman', sans-serif;">Times New Roman</option>
+            <option value="Simson, sans-serif" style="font-family: 'Simson', sans-serif;">Simson</option>
+        </select>
         <form action="public.html" id="username-form">
             <input type="text" placeholder="USERNAME" id="username-input" name="username" maxlength="10">
             <button type="submit" id="join-btn">JOIN</button>
