@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // add existing rooms to room list
     const renderRooms = rooms => {
         document.getElementById('room-list').innerHTML = `
-            ${rooms.filter(room => !room.isPlaying).map(room => `<a href="/chatroom?room=${room.name}"><li>${room.name}</li></a>`).join('')}
+            ${rooms.filter(room => !room.isPlaying).map(room => `<a href="/chatroom?room=${room.name}" class="${room.numUsers >= 10? "disabled":""}"><li>${room.name} (${room.numUsers}/10)</li></a>`).join('')}
         `;
     }
 

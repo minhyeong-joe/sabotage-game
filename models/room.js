@@ -10,7 +10,8 @@ const createRoom = (roomName, password) => {
         readyToVote: [],
         votes: {},
         answer: null,
-        spy: null
+        spy: null,
+        numUsers: 0
     }
     rooms.push(room);
     return room;

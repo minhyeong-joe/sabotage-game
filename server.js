@@ -49,6 +49,11 @@ io.on('connection', socket => {
             socket.emit('roomExists', false);
         }
         const user = userJoin(socket.id, username, room, color);
+        // add numUsers to game room as user enters
+        const gameRoom = getAllRooms().find(r => r.name == room);
+        if (gameRoom) {
+            gameRoom.numUsers++;
+        }
         socket.join(user.room);
 
         // welcome message to connected user
@@ -185,6 +190,10 @@ io.on('connection', socket => {
         }
         if (user && user.room != 'Public Area') {
             const room = getAllRooms().find(room => room.name == user.room);
+            // decrement in game room user number by 1
+            if (room) {
+                room.numUsers--;
+            }
             if (room && room.isPlaying) {
                 const spy = getSpy(user.room);
                 killSurvivor(user.room, user.id);
