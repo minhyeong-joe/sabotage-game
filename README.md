@@ -31,7 +31,7 @@ Please note that this project is for hobby.
 - [x] Chat characters limit
 - [x] Font selection
 - [x] Game sounds
-- [ ] Private Room
+- [x] Private Room
 - [ ] Display who has voted (and maybe to whom?)
 - [x] Mobile-friendly UI/UX
 - [ ] Show locale time instead of server time
