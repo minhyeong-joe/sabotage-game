@@ -42,12 +42,14 @@ io.on('connection', socket => {
         }
     });
 
+    // listens for private room access
+    socket.on('matchPassword', ({roomName, password}) => {
+        const room = getAllRooms().find(room => room.name == roomName);
+        socket.emit('roomAccess', {valid: room.password == password, room});
+    });
+
     // detect room join
     socket.on('joinRoom', ({ username, room, color }) => {
-        // if room does not exist
-        if (!getAllRooms().find(r => r.name == room)) {
-            socket.emit('roomExists', false);
-        }
         const user = userJoin(socket.id, username, room, color);
         // add numUsers to game room as user enters
         const gameRoom = getAllRooms().find(r => r.name == room);

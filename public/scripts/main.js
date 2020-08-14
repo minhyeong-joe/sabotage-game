@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // clear room access token
+    sessionStorage.removeItem('room-token');
+    
     const hash = new Hashes.SHA256;
     const loader = document.getElementById('loader');
     const chatForm = document.getElementById('message-form');
@@ -65,7 +68,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // listens for my room successfully created
         socket.on('roomCreated', newRoom => {
             $('#create-room-modal').modal('hide');
+            sessionStorage.setItem('room-token', hash.hex(newRoom.name));
             window.location.href = `/chatroom?room=${newRoom.name}`;
+        });
+
+        // listens for private room password auth success/fail
+        socket.on('roomAccess', ({valid, room}) => {
+            if (valid) {
+                // set token and direct to the room
+                sessionStorage.setItem('room-token', hash.hex(room.name));
+                window.location.href = `/chatroom?room=${room.name}`;
+            } else {
+                document.getElementById('wrong-password').classList.remove("d-none");
+                document.getElementById('enter-btn').setAttribute('disabled', true);
+            }
         });
 
         // listens for a message
@@ -165,6 +181,36 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('create-btn').removeAttribute('disabled');
     });
 
+    // clicking and entering room "properly", gives room access token
+    $('body').on('click', 'a.room-link', e => {
+        e.preventDefault();
+        const clickedRoomName = e.target.dataset.roomname;
+        const hasPassword = e.target.dataset.password == "true";
+        if (hasPassword) {
+            $('#password-modal').modal('show');
+            $('#roomName').val(clickedRoomName);
+        }
+        else {
+            sessionStorage.setItem('room-token', hash.hex(clickedRoomName));
+            window.location.href = `/chatroom?room=${clickedRoomName}`;
+        }
+    });
+
+    // private room password enter
+    $('#enter-password-form').on('submit', e => {
+        e.preventDefault();
+        const roomName = e.target.elements['roomName'].value;
+        const password = e.target.elements['password'].value;
+        console.log(roomName, password);
+        socket.emit('matchPassword', {roomName, password});
+    });
+
+    // when password verify input is modified, remove invalid from form
+    document.getElementById('password').addEventListener('input', () => {
+        document.getElementById('wrong-password').classList.add("d-none");
+        document.getElementById('enter-btn').removeAttribute('disabled');
+    });
+
     // autogrow textarea
     autosize(document.querySelector('textarea'));
 
@@ -217,7 +263,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // add existing rooms to room list
     const renderRooms = rooms => {
         document.getElementById('room-list').innerHTML = `
-            ${rooms.filter(room => !room.isPlaying).map(room => `<a href="/chatroom?room=${room.name}" class="${room.numUsers >= 10? "disabled":""}"><li>${room.name} (${room.numUsers}/10)</li></a>`).join('')}
+            ${rooms.map(room => 
+                `<a data-roomname="${room.name}" href="/chatroom?room=${room.name}" class="room-link ${room.numUsers >= 10 || room.isPlaying? "disabled":""}">
+                    <li data-roomname="${room.name}" data-password="${room.password? true: false}">
+                        ${room.password? "<i class='fas fa-lock'></i> " : ""}
+                        ${room.name} (${room.numUsers}/10)
+                    </li>
+                </a>`).join('')}
         `;
     }
 

@@ -25,10 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const username = sessionStorage.getItem('username');
     const color = sessionStorage.getItem('color');
     const font = sessionStorage.getItem('font');
+    const roomToken = sessionStorage.getItem('room-token');
 
     messageInput.style.fontFamily = font;
-    
-    const challenge = hash.hex(username);
 
     let sendCooldown = 0;
     let cdInterval;
@@ -56,22 +55,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const spyWinSound = new Audio('../assets/spy_wins.wav');
     const agentWinSound = new Audio('../assets/agents_win.wav');
 
-    if (!username || challenge != sessionStorage.getItem('token')) {
+    // modifying username in session storage: kick out to landing
+    if (!username || hash.hex(username) != sessionStorage.getItem('token')) {
         window.location.replace('/');
+        return;
+    }
+
+    // hacky access to a room by typing in the room name in url
+    if (!roomToken || hash.hex(roomName) != roomToken) {
+        window.location.replace('/public');
         return;
     }
 
     const socket = io();
 
     socket.on('connect', () => {
-
-        // check if room is valid
-        socket.on('roomExists', roomExists => {
-            if (!roomExists) {  
-                window.location.replace('/public');
-                return;
-            }
-        });
 
         // join specific room
         socket.emit('joinRoom', { username, room: roomName, color });
