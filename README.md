@@ -32,8 +32,11 @@ Please note that this project is for hobby.
 - [x] Font selection
 - [x] Game sounds
 - [x] Private Room
-- [ ] Display who has voted (and maybe to whom?)
+- [ ] Display who has voted (and to whom)
 - [x] Mobile-friendly UI/UX
 - [ ] Show locale time instead of server time
 - [x] Better UI for invalid access (instead of simple `alert()`)
     - Decided not to show any error message for invalid access (simply kick out to landing page seems enough)
+- [ ] Display dead indicators
+- [ ] Penalize wrong vote by excluding some words from the list
+- [ ] Some colors to system chat for readability
