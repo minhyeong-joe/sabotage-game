@@ -79,27 +79,35 @@ const killSurvivor = (roomName, userId) => {
 }
 
 // receive votes
-const addVote = (roomName, userId) => {
+const addVote = (roomName, voterId, votedId) => {
     let room = rooms.find(room => room.name == roomName);
-    if (room.votes[userId]) {
-        room.votes[userId] += 1;
-    } else {
-        room.votes[userId] = 1;
-    }
+    room.votes[voterId] = votedId;
 }
 
 // get the most voted userId
 const getMostVoted = roomName => {
     let room = rooms.find(room => room.name == roomName);
-    return Object.keys(room.votes).reduce((a,b)=>room.votes[a]> room.votes[b]? a: b);
+    let voteCount = {};
+    for (const [_, votedId] of Object.entries(room.votes)) {
+        if (voteCount[votedId]) {
+            voteCount[votedId] += 1;
+        } else {
+            voteCount[votedId] = 1;
+        }
+    }
+    return Object.keys(voteCount).reduce((a,b)=>voteCount[a]> voteCount[b]? a: b);
 }
 
 // get the total vote count
 const getTotalVotes = roomName => {
     let room = rooms.find(room => room.name == roomName);
-    console.log(room.votes);
-    console.log(Object.keys(room.votes).reduce((a,b) => room.votes[a] + room.votes[b]))
-    return Object.keys(room.votes).reduce((sum,key) => sum + room.votes[key], 0);
+    return Object.keys(room.votes).length;
+}
+
+// get votes
+const getVotes = roomName => {
+    let room = rooms.find(room => room.name == roomName);
+    return room.votes;
 }
 
 // get answer
@@ -126,6 +134,7 @@ module.exports = {
     addVote,
     getMostVoted,
     getTotalVotes,
+    getVotes,
     getAnswer,
     getSpy
 }

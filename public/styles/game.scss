@@ -36,6 +36,17 @@
     }
 }
 
+.user.dead {
+    color: firebrick;
+    &::before {
+        content: '\f54c';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        font-size: 1rem;
+        margin-right: 0.2rem;
+    }
+}
+
 .timer {
     white-space: nowrap;
     #vote-timer, #sabotage-timer {

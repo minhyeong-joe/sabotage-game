@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // listens for the vote done
-        socket.on('voteDone', deadId => {
+        socket.on('voteDone', (deadId, votes) => {
             timerSound.pause();
             if (deadId) {
                 gunshotSound.currentTime = 0;
@@ -173,14 +173,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 isAlive = false;
                 document.querySelector('.agent-view').classList.add('d-none');
                 document.querySelector('.dead-view').classList.remove('d-none');
+                messageInput.setAttribute('disabled', true);
                 readyToVoteBtn.setAttribute('disabled', true);
                 sabotageBtn.setAttribute('disabled', true);
             } else {
-                readyToVoteBtn.removeAttribute('disabled');
+                if (isAlive) {
+                    readyToVoteBtn.removeAttribute('disabled');
+                }
                 if (isSpy) {
                     sabotageBtn.removeAttribute('disabled');
                 }
             }
+            // show dead users on left panel
+            $(`.user[data-id="${deadId}"]`).addClass('dead');
+            // show who and to whom voted
+            renderVotes(votes);
         });
 
         // listens for sabotage attempt
@@ -227,6 +234,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('answer-word').innerText = "";
             document.querySelector('.agent-view').classList.add('d-none');
             document.querySelector('.dead-view').classList.add('d-none');
+            messageInput.removeAttribute('disabled');
+            $('.user').removeClass('dead');
             $('#vote-modal').modal('hide');
             $('#sabotage-modal').modal('hide');
             $('#game-rule-modal').modal('hide');
@@ -264,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         messageInput.style.height = messageInputHeight;
         const msg = e.target.elements.messageInput.value;
-        if (msg == "") {
+        if (msg == "" || !isAlive) {
             return;
         }
         if (sendCooldown > 0) {
@@ -292,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // character count and enable send button when there's input
     messageInput.addEventListener('input', e => {
-        if (e.target.value == "") {
+        if (e.target.value == "" || !isAlive) {
             messageSendBtn.setAttribute('disabled', true);
         } else {
             messageSendBtn.removeAttribute('disabled');
@@ -435,8 +444,35 @@ document.addEventListener('DOMContentLoaded', () => {
             startGameBtn.removeAttribute('disabled');
         }
         document.getElementById('user-list').innerHTML = `
-            ${users.map(user => `<li>${user.username}</li>`).join('')}
+            ${users.map(user => `<li data-id="${user.id}" class="user">${user.username}</li>`).join('')}
         `;
+    }
+
+    // display vote results (who and to whom)
+    const renderVotes = votes => {
+        console.log(votes);
+        let message = "";
+        for (const [voted, voters] of Object.entries(votes)) {
+            message += "<div class='row no-gutters'><div class='col-8'>";
+            for (let i = 0; i < voters.length; i++) {
+                message += `${voters[i]}`;
+                if (i != voters.length-1) {
+                    message += ", ";
+                }
+            }
+            message += "</div>"; // end of col-8 div
+            message += "<div class='col-1'><i class='fas fa-hand-point-right' style='color:firebrick;'></i></div>";
+            message += `<div class="col-3">${voted}</div>`;
+            message += "</div>"; // end of row div
+        }
+        const div = document.createElement('div');
+        div.classList.add('message');
+        div.innerHTML = "";
+        div.classList.add('system-message');
+        div.innerHTML += `<div class="content" style="font-family: ${font}">
+                            ${message}
+                          </div>`;
+        chatWindow.append(div);
     }
 
 });

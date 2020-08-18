@@ -8,7 +8,7 @@ const io = socketio(server);
 
 const message = require("./models/message");
 const { getAllUsers, userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./models/user');
-const { createRoom, removeRoom, getAllRooms, startGame, endGame, getReadyToVote, addReadyToVote, resetVotes, getSurvived, killSurvivor, addVote, getMostVoted, getTotalVotes, getAnswer, getSpy } = require('./models/room');
+const { createRoom, removeRoom, getAllRooms, startGame, endGame, getReadyToVote, addReadyToVote, resetVotes, getSurvived, killSurvivor, addVote, getMostVoted, getTotalVotes, getVotes, getAnswer, getSpy } = require('./models/room');
 const { getAllWords, getRandomWord, getRandomSpy } = require('./models/game');
 
 const PORT = process.env.PORT || 80;
@@ -109,17 +109,32 @@ io.on('connection', socket => {
         });
 
         // listens for in-coming votes
-        socket.on('vote', userId => {
+        socket.on('vote', votedUserId => {
             const survived = getSurvived(user.room);
-            addVote(user.room, userId);
+            addVote(user.room, user.id, votedUserId);
             // if everyone that are alive vote, then emit back the vote result
             if (getTotalVotes(user.room) == survived.length) {
                 // most voted picks randomly if equal
                 const mostVotedUserId = getMostVoted(user.room);
+                // retrieve who voted who
+                const votes = getVotes(user.room);
+                // convert voted Ids to usernames
+                // each voted is array of voters
+                const voteResult = {};
+                for (const [voter, voted] of Object.entries(votes)) {
+                    const voterName = getCurrentUser(voter).username;
+                    const votedName = voted=="skip"? voted: getCurrentUser(voted).username;
+                    if (voteResult[votedName]) {
+                        voteResult[votedName].push(voterName);
+                    } else {
+                        voteResult[votedName] = [];
+                        voteResult[votedName].push(voterName);
+                    }
+                }
                 // if skip is most voted
                 if (mostVotedUserId == "skip") {
                     io.to(user.room).emit('message', message(null, bot, 'The vote has been skipped'));
-                    io.to(user.room).emit('voteDone', null);
+                    io.to(user.room).emit('voteDone', null, voteResult);
                 } else {
                     const spy = getSpy(user.room);
                     const votedUser = getCurrentUser(mostVotedUserId);
@@ -136,7 +151,7 @@ io.on('connection', socket => {
                         io.to(user.room).emit('message', message(null, bot, `Oops! an Agent ${votedUser.username} is shot dead...`));
                     }
                     killSurvivor(user.room, votedUser.id);
-                    io.to(user.room).emit('voteDone', votedUser.id);
+                    io.to(user.room).emit('voteDone', votedUser.id, voteResult);
                     // if num survivor == 2 that means it's 1v1, then spy wins
                     if (getSurvived(user.room).length <= 2) {
                         // reset in-server game stat
