@@ -194,7 +194,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // listens for revealWords when agents fail to vote Spy
         socket.on('revealWords', removed => {
-            console.log(removed);
             // show removed words in chat
             let message = `${removed.length} words are removed:<br/>`;
             message += removed.join(', ');
@@ -481,7 +480,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // display vote results (who and to whom)
     const renderVotes = votes => {
-        console.log(votes);
         let message = "";
         for (const [voted, voters] of Object.entries(votes)) {
             message += "<div class='row no-gutters'><div class='col-8'>";
