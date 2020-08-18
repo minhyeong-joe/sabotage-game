@@ -38,5 +38,5 @@ Please note that this project is for hobby.
 - [x] Better UI for invalid access (instead of simple `alert()`)
     - Decided not to show any error message for invalid access (simply kick out to landing page seems enough)
 - [x] Display dead indicators
-- [ ] Penalize wrong vote by excluding some words from the list
+- [x] Penalize wrong vote by excluding some words from the list
 - [ ] Some colors to system chat for readability
