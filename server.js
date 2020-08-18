@@ -8,7 +8,7 @@ const io = socketio(server);
 
 const message = require("./models/message");
 const { getAllUsers, userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./models/user');
-const { createRoom, removeRoom, getAllRooms, startGame, endGame, getReadyToVote, addReadyToVote, resetVotes, getSurvived, killSurvivor, addVote, getMostVoted, getTotalVotes, getVotes, getAnswer, getSpy } = require('./models/room');
+const { createRoom, removeRoom, getAllRooms, startGame, endGame, getReadyToVote, addReadyToVote, resetVotes, getSurvived, killSurvivor, addVote, getMostVoted, getTotalVotes, getVotes, getAnswer, getSpy, removeWords } = require('./models/room');
 const { getAllWords, getRandomWord, getRandomSpy } = require('./models/game');
 
 const PORT = process.env.PORT || 80;
@@ -84,7 +84,7 @@ io.on('connection', socket => {
             const spy = getRandomSpy(allUsers);
             const agents = allUsers.filter(user => user.id != spy.id);
             const answer = getRandomWord(topic);
-            startGame(user.room, allUsers, answer, spy);
+            startGame(user.room, allUsers, answer, spy, getAllWords(topic));
             // set this room to be invisible to public area
             io.to('Public Area').emit('roomsChange', getAllRooms());
             io.to(spy.id).emit('gameStart', {role: 'spy', list: getAllWords(topic)});
@@ -159,8 +159,11 @@ io.on('connection', socket => {
                         // tell client game is over
                         io.to(user.room).emit('message', message(null, bot, `Spy Won!\n${spy.username} is the spy`));
                         io.to(user.room).emit('endGame', 'spy');
+                        return;
                     }
                 }
+                // if vote didn't get spy, then reveal some words
+                io.to(user.room).emit('revealWords', removeWords(user.room));
                 resetVotes(user.room);
             }
         });

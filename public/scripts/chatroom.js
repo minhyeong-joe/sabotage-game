@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let voteTimeout;
     let sabotageInterval
     let sabotageTimeout;
+    let wordOptions = [];
 
     // game sounds
     let volume = 1;
@@ -107,11 +108,12 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.game-start-container').classList.add("d-none");
             document.querySelector('.list-of-words-toggle').classList.remove('d-none');
             document.getElementById('ready-to-vote-btn').removeAttribute('disabled');
+            wordOptions = game.list;
             document.querySelector('.list-group').innerHTML = `
-            ${game.list.map(option => `<li class="list-group-item">${option}</li>`).join('')}
+            ${wordOptions.map(option => `<li class="list-group-item">${option}</li>`).join('')}
             `;
             document.getElementById('sabotage-select').innerHTML = `
-            ${game.list.map(option => `<option value="${option}">${option}</option>`).join('')}
+            ${wordOptions.map(option => `<option value="${option}">${option}</option>`).join('')}
             `;
             // if spy
             if (game.role == 'spy') {
@@ -188,6 +190,35 @@ document.addEventListener('DOMContentLoaded', () => {
             $(`.user[data-id="${deadId}"]`).addClass('dead');
             // show who and to whom voted
             renderVotes(votes);
+        });
+
+        // listens for revealWords when agents fail to vote Spy
+        socket.on('revealWords', removed => {
+            console.log(removed);
+            // show removed words in chat
+            let message = `${removed.length} words are removed:<br/>`;
+            message += removed.join(', ');
+            const div = document.createElement('div');
+            div.classList.add('message');
+            div.innerHTML = "";
+            div.classList.add('system-message');
+            div.innerHTML += `<div class="content" style="font-family: ${font}">
+                                ${message}
+                            </div>`;
+            chatWindow.append(div);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            // update list and sabotage list
+            wordOptions = wordOptions.filter(word => !removed.includes(word));
+            options = document.querySelectorAll('.list-group-item');
+            options.forEach(option => {
+                if (removed.includes(option.innerHTML)) {
+                    option.innerHTML = `<del>${option.innerHTML}</del>`;
+                }
+            });
+            document.getElementById('sabotage-select').innerHTML = `
+            ${wordOptions.map(option => `<option value="${option}">${option}</option>`).join('')}
+            `;
         });
 
         // listens for sabotage attempt
@@ -473,6 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             ${message}
                           </div>`;
         chatWindow.append(div);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
     }
 
 });
